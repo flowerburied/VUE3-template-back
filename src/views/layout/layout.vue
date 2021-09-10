@@ -1,12 +1,12 @@
 <template>
   <!-- <div class="layout"> -->
-    <el-container class="container">
+  <el-container class="container">
+    <el-aside class="hidden-xs-only" width="200px"> <Aside></Aside></el-aside>
+    <el-container>
       <el-header> <Header></Header></el-header>
-      <el-container>
-        <el-aside class="hidden-xs-only" width="200px"> <Aside></Aside></el-aside>
-        <el-main> <Main></Main></el-main>
-      </el-container>
+      <el-main> <Main></Main></el-main>
     </el-container>
+  </el-container>
   <!-- </div> -->
 </template>
 
@@ -29,7 +29,7 @@ export default {
 // .layout{
 //     height: 100%;
 // }
-.container{
+.container {
   height: 100vh;
 }
 // Container 布局容器
