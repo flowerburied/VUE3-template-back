@@ -25,3 +25,5 @@ https://element-plus.gitee.io/#/zh-CN/component/installation
 ### vue3 bug
 把文件vue3bug中的theme-chalk放入node_modules/element-plus/lib 中
 解决import 'element-plus/lib/theme-chalk/display.css'文件没有的bug
+### 国际化
+https://kazupon.github.io/vue-i18n/zh/

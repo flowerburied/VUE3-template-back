@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="layout"> -->
+
   <el-container class="container">
     <el-aside class="hidden-xs-only" width="200px"> <Aside></Aside></el-aside>
     <el-container>
@@ -7,7 +7,7 @@
       <el-main> <Main></Main></el-main>
     </el-container>
   </el-container>
-  <!-- </div> -->
+
 </template>
 
 <script>

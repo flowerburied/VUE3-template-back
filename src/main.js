@@ -7,10 +7,14 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/lib/theme-chalk/display.css'
 
-const app = createApp(App)
+// Vue I18ni18n
+import i18n from './language'
 
+
+const app = createApp(App)
 app
     .use(store)
     .use(router)
     .use(ElementPlus)
+    .use(i18n)
     .mount("#app");
