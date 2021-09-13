@@ -60,8 +60,11 @@
 
 <script>
 import { defineComponent } from "vue";
+import { useRoute, useRouter } from "vue-router";
 export default defineComponent({
   setup() {
+    console.log("useRoute", useRoute());
+    console.log("useRouter", useRouter());
     const handleOpen = (key, keyPath) => {
       console.log(key, keyPath);
     };

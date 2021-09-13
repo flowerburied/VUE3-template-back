@@ -5,7 +5,7 @@
 <script>
 
 export default {
-  name: "login",
+  // name: "login",
   components: {},
 };
 </script>

@@ -8,12 +8,20 @@ const routes = [
         name: "layout",
         component: () =>
             import ("@/views/layout/layout.vue"),
+        children: [{
+            path: "/ogin",
+            name: "ogin",
+            component: () =>
+                import ("@/views/Login.vue"),
+        }, ]
     },
     {
         path: "/index",
         name: "index",
+        meta: { title: "首页" },
         component: () =>
             import ("@/views/home/index.vue"),
+
     }, {
         path: "/Login",
         name: "Login",
