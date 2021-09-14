@@ -1,17 +1,20 @@
 <template>
   <div class="Aside">
     <el-menu
-      default-active="2"
+      @select="handleSelect"
+      :default-active="selectedKeys"
+      :default-openeds="openedsKey"
       class="el-menu-vertical-demo"
       @open="handleOpen"
-      @close="handleClose"
+      router
+      unique-opened
     >
       <template v-for="item in routers" :key="item">
         <!-- 一级菜单 -->
         <template v-if="!item.hidden">
-          <el-menu-item :route="item.path" :index="item.path" v-if="!item.children">
+          <el-menu-item :index="item.path" v-if="!item.children">
             <i class="el-icon-menu"></i>
-            <template #title>{{ item.meta.title }}</template>
+            <template #title> {{ child.meta && child.meta.title }}</template>
           </el-menu-item>
           <Menu :item="item" v-else></Menu>
         </template>
@@ -36,19 +39,30 @@ export default defineComponent({
 
     const data = reactive({
       options: options.routes,
+      selectedKeys: "",
+      openedsKey: []
     });
     const from = toRefs(data);
     console.log("routers", routers);
     console.log("data", from.options.value);
     const handleOpen = (key, keyPath) => {
       console.log("handleOpen", key, keyPath);
+      localStorage.setItem("openedsKey", key);
+      data.openedsKey = key;
     };
 
+    const handleSelect = (key, keyPath) => {
+      //   console.log("handleSelect", key, keyPath);
+      localStorage.setItem("selectedKeys", key);
+      data.selectedKeys = key;
+      console.log("handleSelect", data, keyPath);
+    };
     return {
       ...from,
       routers,
       data,
       handleOpen,
+      handleSelect,
     };
   },
 });

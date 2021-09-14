@@ -10,45 +10,34 @@ const routes = [
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
-            path: "/ogin",
-            name: "ogin",
-            meta: { title: "首页" },
-            component: () =>
-                import ("@/views/Login.vue"),
-        }, ]
+                path: "/ogin",
+                name: "ogin",
+                meta: { title: "首页" },
+                component: () =>
+                    import ("@/views/Login.vue"),
+            },
+            {
+                path: "/rolePermissions1",
+                name: "rolePermissions1",
+                meta: { title: "角色权限" },
+                component: () =>
+                    import ("@/views/componentView/rolePermissions.vue"),
+            },
+        ]
     },
 
     {
         path: "/componentView",
         name: "componentView",
         meta: { title: "组件" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
         children: [{
                 path: "/rolePermissions",
                 name: "rolePermissions",
                 meta: { title: "角色权限" },
                 component: () =>
                     import ("@/views/componentView/rolePermissions.vue"),
-                children: [{
-                    path: "/comForm",
-                    name: "comForm",
-                    meta: { title: "表单1" },
-                    component: () =>
-                        import ("@/views/componentView/Form/comForm.vue"),
-                    children: [{
-                        path: "/comForm",
-                        name: "comForm",
-                        meta: { title: "表单2" },
-                        component: () =>
-                            import ("@/views/componentView/Form/comForm.vue"),
-                        children: [{
-                            path: "/comForm",
-                            name: "comForm",
-                            meta: { title: "表单3" },
-                            component: () =>
-                                import ("@/views/componentView/Form/comForm.vue"),
-                        }, ]
-                    }, ]
-                }, ]
             },
             {
                 path: "/comForm",
@@ -73,7 +62,7 @@ const routes = [
         path: "/Login",
         name: "Login",
         hidden: true,
-        meta: { title: "登录" },
+        meta: { title: "登录1" },
         component: () =>
             import ("@/views/Login.vue"),
     },

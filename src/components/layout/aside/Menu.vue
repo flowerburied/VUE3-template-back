@@ -1,14 +1,14 @@
 <template>
-  <el-sub-menu :route="item.path" :index="item.path">
+  <el-sub-menu :index="item.path">
     <template #title>
       <span>{{ item.meta && item.meta.title }}</span>
     </template>
     <template v-if="item.children.length">
       <template v-for="child in item.children" :key="child">
         <!-- 不存在子集的栏目 -->
-        <el-menu-item v-if="!child.children" :route="child.path" :index="child.path">{{
-          child.meta.title
-        }}</el-menu-item>
+        <el-menu-item v-if="!child.children" :index="child.path">
+          {{ child.meta && child.meta.title }}
+        </el-menu-item>
         <!-- 存在子集的栏目 -->
         <Menu :item="child" v-else></Menu>
       </template>
