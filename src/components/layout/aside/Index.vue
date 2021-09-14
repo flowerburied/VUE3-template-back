@@ -40,7 +40,7 @@ export default defineComponent({
     const data = reactive({
       options: options.routes,
       selectedKeys: "",
-      openedsKey: []
+      openedsKey: [],
     });
     const from = toRefs(data);
     console.log("routers", routers);
@@ -48,7 +48,7 @@ export default defineComponent({
     const handleOpen = (key, keyPath) => {
       console.log("handleOpen", key, keyPath);
       localStorage.setItem("openedsKey", key);
-      data.openedsKey = key;
+      data.openedsKey = keyPath;
     };
 
     const handleSelect = (key, keyPath) => {

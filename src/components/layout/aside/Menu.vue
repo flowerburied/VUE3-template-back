@@ -10,7 +10,7 @@
           {{ child.meta && child.meta.title }}
         </el-menu-item>
         <!-- 存在子集的栏目 -->
-        <Menu :item="child" v-else></Menu>
+        <mymenu :item="child" v-else></mymenu>
       </template>
     </template>
   </el-sub-menu>
@@ -18,12 +18,12 @@
 
 <script>
 export default {
-  name: "menu",
+  name: "mymenu",
 
   props: {
     item: {
       type: Object,
-      default: () => ({}), //默认值
+      // default: () => ({}), //默认值
       required: true, //是否必要
     },
   },
