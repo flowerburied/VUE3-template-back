@@ -5,7 +5,7 @@ import store from "./store";
 // 引入ElementPlus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import 'element-plus/lib/theme-chalk/display.css'
+import 'element-plus/theme-chalk/display.css'
 
 // Vue I18ni18n
 import i18n from './language'

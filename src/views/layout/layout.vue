@@ -14,7 +14,7 @@
 
 <script>
 import { reactive, toRefs } from "@vue/reactivity";
-import Aside from "@/components/layout/Aside";
+import Aside from "@/components/layout/aside/Index";
 import Header from "@/components/layout/Header";
 import Main from "@/components/layout/Main";
 // 国际化
