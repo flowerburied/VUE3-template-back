@@ -1,0 +1,8 @@
+// 寻找i标签class属性icon的标签
+i[class^=icon] {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.icon-aside-home {}
