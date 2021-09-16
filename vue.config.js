@@ -1,3 +1,5 @@
+const path = require("path")
+
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ?
         '' : '/',
@@ -7,20 +9,20 @@ module.exports = {
     // 关闭语法的自动检测
     lintOnSave: false,
     // 配置svg
-    // chainWebpack: config => {
-    //     config.module.rules.delete("svg") //重点，删除默认配置中处理svg
-    //     config.module
-    //         .rule('svg-sprite-loader').test(/\.svg$/) //引入svg-sprite-loader
-    //         .include
-    //         .add(resolve('./src/assets/svg')) //处理svg目录
-    //         .end()
-    //         .use('svg-sprite-loader')
-    //         .loader('svg-sprite-loader')
-    //         .options({
-    //             symbolId: 'icon-[name]' //为标签配置id
-    //         })
+    chainWebpack: config => {
+        config.module.rules.delete("svg") //重点，删除默认配置中处理svg
+        config.module
+            .rule('svg-sprite-loader').test(/\.svg$/) //引入svg-sprite-loader
+            .include
+            .add(path.resolve('./src/assets/svg')) //处理svg目录
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'icon-[name]' //为标签配置id
+            })
 
-    // },
+    },
     // 配置css
     // https://cli.vuejs.org/zh/config/#css-modules
     css: {

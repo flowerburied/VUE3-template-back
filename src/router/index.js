@@ -6,7 +6,7 @@ const routes = [
     {
         path: "/",
         name: "layout",
-        meta: { title: "首页", icon: "icon-aside-home" },
+        meta: { title: "首页", icon: "all" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -29,7 +29,7 @@ const routes = [
     {
         path: "/componentView",
         name: "componentView",
-        meta: { title: "组件", icon: "icon-aside-home" },
+        meta: { title: "组件", icon: "all" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{

@@ -5,7 +5,18 @@ i[class^=icon] {
     background-position: 0 0;
 }
 
-// 图标尺寸
+// svg图标尺寸
+.svg-class {
+    width: 1em;
+    height: 1em;
+    fill: currentColor; //svg属性 换颜色
+}
+
+.aside-svg {
+    font-size: 20px;
+}
+
+// png图标尺寸
 .icon-size-21 {
     width: 21px;
     height: 21px;

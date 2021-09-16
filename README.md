@@ -38,3 +38,6 @@ npm i svg-sprite-loader -D 依赖到开发环境
 配饰vue.config.js教程
 https://cli.vuejs.org/zh/config/#chainwebpack
 https://cli.vuejs.org/zh/guide/webpack.html#%E9%93%BE%E5%BC%8F%E6%93%8D%E4%BD%9C-%E9%AB%98%E7%BA%A7
+
+const path=require("path")
+解决resolve没方法的问题
