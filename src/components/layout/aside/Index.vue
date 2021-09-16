@@ -14,7 +14,7 @@
         <template v-if="!item.hidden">
           <el-menu-item :index="item.path" v-if="!item.children">
             <!-- <i class="el-icon-menu"></i> -->
-            <i class="icon icon-aside-home"></i>
+              <i class="icon icon-size-21" :class=" child.meta && child.meta.icon"></i>
             <template #title> {{ child.meta && child.meta.title }}</template>
           </el-menu-item>
           <Menu :item="item" v-else></Menu>

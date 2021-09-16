@@ -5,4 +5,23 @@ i[class^=icon] {
     background-position: 0 0;
 }
 
-.icon-aside-home {}
+// 图标尺寸
+.icon-size-21 {
+    width: 21px;
+    height: 21px;
+}
+
+.icon-size-30 {
+    width: 30px;
+    height: 30px;
+}
+
+// 偏移
+.mb--5 {
+    margin-bottom: -5px;
+}
+
+// 图标
+.icon-aside-home {
+    background-image: url("~@/assets/icon/04.png");
+}

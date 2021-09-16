@@ -1,12 +1,14 @@
 <template>
   <el-sub-menu :index="item.path">
     <template #title>
+      <i class="icon icon-size-21" :class=" item.meta && item.meta.icon"></i>
       <span>{{ item.meta && item.meta.title }}</span>
     </template>
     <template v-if="item.children.length">
       <template v-for="child in item.children" :key="child">
         <!-- 不存在子集的栏目 -->
         <el-menu-item v-if="!child.children" :index="child.path">
+          <!-- <i class="icon icon-aside-home icon-size-21"></i> -->
           {{ child.meta && child.meta.title }}
         </el-menu-item>
         <!-- 存在子集的栏目 -->
