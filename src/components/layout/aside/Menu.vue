@@ -3,7 +3,7 @@
     <template #title>
       <!-- <i class="icon icon-size-21" :class=" item.meta && item.meta.icon"></i> -->
       <div class="menu-class">
-        <SvgIcon :iconName="item.meta && item.meta.icon" className="aside-svg"></SvgIcon>
+        <svg-icon :iconName="item.meta && item.meta.icon" className="aside-svg"></svg-icon>
         <span>{{ item.meta && item.meta.title }}</span>
       </div>
     </template>
@@ -24,12 +24,10 @@
 </template>
 
 <script>
-import SvgIcon from "@/components/Svgicon";
+
 export default {
   name: "mymenu",
-  components: {
-    SvgIcon,
-  },
+
   props: {
     item: {
       type: Object,

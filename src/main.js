@@ -10,8 +10,10 @@ import 'element-plus/theme-chalk/display.css'
 // Vue I18ni18n
 import i18n from './language'
 
+//svg全局组件注册
+import SvgIcon from "@/components/Svgicon"
 //svg文件解析
-
+import "./js/svg.js"
 
 const app = createApp(App)
 app
@@ -19,4 +21,5 @@ app
     .use(router)
     .use(ElementPlus)
     .use(i18n)
+    .component("svg-icon", SvgIcon)
     .mount("#app");

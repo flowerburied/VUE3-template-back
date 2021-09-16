@@ -15,10 +15,10 @@
           <el-menu-item :index="item.path" v-if="!item.children">
             <!-- <i class="el-icon-menu"></i> -->
             <!-- <i class="icon icon-size-21" :class="child.meta && child.meta.icon"></i> -->
-            <SvgIcon
+            <svg-icon
               :iconName="item.meta && item.meta.icon"
               className="aside-svg"
-            ></SvgIcon>
+            ></svg-icon>
             <template #title> {{ item.meta && item.meta.title }}</template>
           </el-menu-item>
           <Menu :item="item" v-else></Menu>
@@ -32,19 +32,19 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Menu from "@/components/layout/aside/Menu";
-import SvgIcon from "@/components/Svgicon";
+
 export default defineComponent({
   components: {
-    Menu,
-    SvgIcon,
+    Menu
   },
   setup() {
     // console.log("useRoute", useRoute());
     // 路由
     const { options } = useRouter();
-    const routers = options.routes;
+    const routers = options.routes[0].children;
     // const { getRoutes } = useRouter();
     // const routers = getRoutes();
+    console.log("routers",routers);
     // 数据
     const data = reactive({
       selectedKeys: localStorage.getItem("selectedKeys"),
