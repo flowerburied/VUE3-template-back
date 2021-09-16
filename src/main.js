@@ -10,6 +10,8 @@ import 'element-plus/theme-chalk/display.css'
 // Vue I18ni18n
 import i18n from './language'
 
+//svg文件解析
+
 
 const app = createApp(App)
 app

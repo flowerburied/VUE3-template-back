@@ -19,7 +19,7 @@
               :iconName="item.meta && item.meta.icon"
               className="aside-svg"
             ></SvgIcon>
-            <template #title> {{ child.meta && child.meta.title }}</template>
+            <template #title> {{ item.meta && item.meta.title }}</template>
           </el-menu-item>
           <Menu :item="item" v-else></Menu>
         </template>
@@ -40,26 +40,28 @@ export default defineComponent({
   },
   setup() {
     // console.log("useRoute", useRoute());
-
+    // 路由
     const { options } = useRouter();
     const routers = options.routes;
-
+    // const { getRoutes } = useRouter();
+    // const routers = getRoutes();
+    // 数据
     const data = reactive({
-      options: options.routes,
       selectedKeys: localStorage.getItem("selectedKeys"),
       openedsKey: localStorage.getItem("openedsKey")
         ? [localStorage.getItem("openedsKey")]
         : [],
     });
     const from = toRefs(data);
-    console.log("routers", routers);
-    console.log("data", from.options.value);
+    // console.log("routers", routers);
+    // console.log("data", from.options.value);
+    // 打开菜单
     const handleOpen = (key, keyPath) => {
       console.log("handleOpen", key, keyPath);
       localStorage.setItem("openedsKey", key);
       data.openedsKey = key;
     };
-
+    // 选择菜单
     const handleSelect = (key, keyPath) => {
       //   console.log("handleSelect", key, keyPath);
       localStorage.setItem("selectedKeys", key);

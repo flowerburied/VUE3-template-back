@@ -25,6 +25,14 @@ const routes = [
             },
         ]
     },
+    {
+        path: "/admin",
+        name: "admin",
+        meta: { title: "管理员管理", icon: "admin" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+
+    },
 
     {
         path: "/componentView",
