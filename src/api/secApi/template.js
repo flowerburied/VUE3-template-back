@@ -4,7 +4,7 @@ let template = {
     // 场地列表
     getPlaceList(data) {
         return axios({
-            url: '/H5/getPlaceList',
+            url: '/AdminLogin/login',
             method: 'post',
             data: data
         })

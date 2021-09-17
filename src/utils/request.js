@@ -2,13 +2,16 @@ import axios from "axios";
 import qs from 'qs'
 // 创建实例first
 const service = axios.create({
-    baseURL: 'http://139.196.231.67:8080',
+    baseURL: process.env.VUE_APP_FLAG,
+    // baseURL: "https://api.haihaixingqiu.com",
+    // baseURL: 'http://139.196.231.67:8080',
     timeout: 1000,
-    headers: { 'X-Custom-Header': 'foobar' }
+    // headers: { 'X-Requested-With': 'XMLHttpRequest' },
+
 });
-
-
-// 添加请求拦截器
+console.log("process.env.VUE_APP_FLAG", process.env.VUE_APP_FLAG)
+console.log("process.env.NODE_ENV ", process.env.NODE_ENV)
+    // 添加请求拦截器
 service.interceptors.request.use(function(config) {
     // 在发送请求之前做些什么
     console.log("config", config)

@@ -41,3 +41,13 @@ https://cli.vuejs.org/zh/guide/webpack.html#%E9%93%BE%E5%BC%8F%E6%93%8D%E4%BD%9C
 
 const path=require("path")
 解决resolve没方法的问题
+
+### vue.config.js配置
+https://cli.vuejs.org/zh/config/#devserver-proxy
+
+### 环境变量
+https://cli.vuejs.org/zh/guide/mode-and-env.html#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F
+.env.development  //开发环境变量
+.env.production   //生产环境变量
+.env.test         //测试环境变量
+"build-test": "vue-cli-service build --mode test",  //添加配置测试环境包

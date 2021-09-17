@@ -31,7 +31,9 @@
         <!-- <img :src="boxlist" > -->
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item icon="el-icon-user">用户名称</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-user" @click="getfun"
+              >用户名称</el-dropdown-item
+            >
             <!-- <el-dropdown-item icon="el-icon-map-location">中文</el-dropdown-item> -->
 
             <el-dropdown-item icon="el-icon-arrow-right">{{
@@ -68,8 +70,8 @@ export default {
     const getfun = async () => {
       try {
         let option = {
-          page: 1,
-          size: 1,
+          account: 123456,
+          password: 123456,
         };
         const res = api.template.getPlaceList(option);
         console.log("res", res);
