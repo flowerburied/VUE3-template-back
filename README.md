@@ -51,3 +51,5 @@ https://cli.vuejs.org/zh/guide/mode-and-env.html#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%
 .env.production   //生产环境变量
 .env.test         //测试环境变量
 "build-test": "vue-cli-service build --mode test",  //添加配置测试环境包
+
+### 请求头坑 X-Custom-Header为自定义请求头！！！需要改成后端可以接受的请求头！！！不能乱写

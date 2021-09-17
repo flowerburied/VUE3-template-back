@@ -1,10 +1,16 @@
 import axios from "axios";
 import qs from 'qs'
 // 创建实例first
+
+let baseURL = ''
+if (process.env.NODE_ENV == "development") {
+    baseURL = process.env.VUE_APP_FLAG
+} else {
+    baseURL = process.env.VUE_APP_APIURL
+}
+console.log("baseURL", baseURL)
 const service = axios.create({
-    baseURL: process.env.VUE_APP_FLAG,
-    // baseURL: "https://api.haihaixingqiu.com",
-    // baseURL: 'http://139.196.231.67:8080',
+    baseURL: baseURL,
     timeout: 1000,
     // headers: { 'X-Requested-With': 'XMLHttpRequest' },
 
