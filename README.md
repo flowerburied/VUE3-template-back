@@ -53,3 +53,12 @@ https://cli.vuejs.org/zh/guide/mode-and-env.html#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%
 "build-test": "vue-cli-service build --mode test",  //添加配置测试环境包
 
 ### 请求头坑 X-Custom-Header为自定义请求头！！！需要改成后端可以接受的请求头！！！不能乱写
+
+
+### vueRouter 路由跳转
+https://next.router.vuejs.org/zh/api/#replace-1
+需要用户返回上一个历史记录，就用push
+不让用户返回上一个历史记录，就用replace
+replace({
+    name:"Login"
+})
