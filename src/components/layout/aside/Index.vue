@@ -8,18 +8,24 @@
       @open="handleOpen"
       router
       unique-opened
+   
     >
       <template v-for="item in routers" :key="item">
         <!-- 一级菜单 -->
         <template v-if="!item.hidden">
-          <el-menu-item :index="item.path" v-if="!item.children">
+          <el-menu-item :index="item.path" v-if="item.children.length == 1">
             <!-- <i class="el-icon-menu"></i> -->
             <!-- <i class="icon icon-size-21" :class="child.meta && child.meta.icon"></i> -->
-            <svg-icon
-              :iconName="item.meta && item.meta.icon"
-              className="aside-svg"
-            ></svg-icon>
-            <template #title> {{ item.meta && item.meta.title }}</template>
+
+            <template #title>
+              <div class="menu-class">
+                <svg-icon
+                  :iconName="item.meta && item.meta.icon"
+                  className="aside-svg"
+                ></svg-icon>
+                {{ item.meta && item.meta.title }}
+              </div>
+            </template>
           </el-menu-item>
           <Menu :item="item" v-else></Menu>
         </template>
@@ -35,16 +41,16 @@ import Menu from "@/components/layout/aside/Menu";
 
 export default defineComponent({
   components: {
-    Menu
+    Menu,
   },
   setup() {
     // console.log("useRoute", useRoute());
     // 路由
     const { options } = useRouter();
-    const routers = options.routes[0].children;
+    const routers = options.routes;
     // const { getRoutes } = useRouter();
     // const routers = getRoutes();
-    console.log("routers",routers);
+    console.log("routers", routers);
     // 数据
     const data = reactive({
       selectedKeys: localStorage.getItem("selectedKeys"),
@@ -78,3 +84,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.menu-class {
+  display: flex;
+  align-items: center;
+}
+</style>

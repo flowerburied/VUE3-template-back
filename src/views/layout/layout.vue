@@ -3,7 +3,7 @@
     <!-- <div @click="toggleLang('zhCn')">zhCn</div>
     <div @click="toggleLang('en')">en</div> -->
     <el-container class="container">
-      <el-aside class="hidden-xs-only" width="200px"> <Aside></Aside></el-aside>
+      <el-aside class="hidden-xs-only" > <Aside></Aside></el-aside>
       <el-container>
         <el-header> <Header @toggleLang="toggleLang"></Header></el-header>
         <el-main> <Main></Main></el-main>
