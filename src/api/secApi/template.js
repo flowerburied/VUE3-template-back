@@ -9,6 +9,14 @@ let template = {
             data: data
         })
     },
+    // 登录
+    login(data) {
+        return axios({
+            url: '/AdminLogin/login',
+            method: 'post',
+            data: data
+        })
+    },
 
 
 }

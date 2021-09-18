@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const routes = [
 
     {
-        path: "/",
+        path: "/layout",
         name: "layout",
         meta: { title: "首页", icon: "all" },
         component: () =>
@@ -77,7 +77,7 @@ const routes = [
 
     },
     {
-        path: "/Login",
+        path: "/",
         name: "Login",
         hidden: true,
         meta: { title: "登录1" },

@@ -15,6 +15,9 @@ import SvgIcon from "@/components/Svgicon"
 //svg文件解析
 import "./js/svg.js"
 
+// 路由拦截
+import "./router/permit"
+
 const app = createApp(App)
 app
     .use(store)
