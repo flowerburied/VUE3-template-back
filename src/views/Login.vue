@@ -35,7 +35,8 @@
 
 <script>
 import { reactive, ref, toRefs, getCurrentInstance } from "vue";
-// import {replace} from "vue-router"
+import router from "../router/index"
+// import { router } from "vue-router";
 import api from "../api/api";
 export default {
   name: "login",
@@ -43,8 +44,8 @@ export default {
   setup() {
     const fromConfig = reactive({
       form: {
-        account: "",
-        password: "",
+        account: "123456",
+        password: "123456",
       },
       rules: {
         account: [{ required: true, message: "请输入账号", trigger: "blur" }],
@@ -93,6 +94,8 @@ export default {
         const res = await api.template.login(option);
 
         console.log("res", res);
+
+        router.replace({ path: "/layout" });
         // replace({
         //   name: "/",
         // });

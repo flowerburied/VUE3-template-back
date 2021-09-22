@@ -8,7 +8,8 @@
       @open="handleOpen"
       router
       unique-opened
-   
+   background-color="#282c34"
+   text-color="#ffffff"
     >
       <template v-for="item in routers" :key="item">
         <!-- 一级菜单 -->
@@ -89,5 +90,10 @@ export default defineComponent({
 .menu-class {
   display: flex;
   align-items: center;
+}
+// 更改选中颜色
+.el-menu-item.is-active  {
+   background: #1890ff !important;
+   color: #ffffff;
 }
 </style>

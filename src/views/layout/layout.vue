@@ -5,7 +5,7 @@
     <el-container class="container">
       <el-aside class="hidden-xs-only" > <Aside></Aside></el-aside>
       <el-container>
-        <el-header> <Header @toggleLang="toggleLang"></Header></el-header>
+        <el-header class="header-bg"> <Header @toggleLang="toggleLang"></Header></el-header>
         <el-main> <Main></Main></el-main>
       </el-container>
     </el-container>
@@ -34,7 +34,7 @@ export default {
     const layoutList = reactive({
       zhCn: zhCn,
       en: en,
-      locale: en,
+      locale: zhCn,
     });
     const from = toRefs(layoutList);
 
@@ -61,6 +61,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 // .layout{
 //     height: 100%;
 // }
@@ -70,24 +71,22 @@ export default {
 // Container 布局容器
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
-  color: var(--el-text-color-primary);
+  background-color: #ffffff;
+  // color: var(--el-text-color-primary);
   text-align: center;
   line-height: 60px;
 }
 
 .el-aside {
-  background-color: #d3dce6;
-  color: var(--el-text-color-primary);
+  background-color: #282c34;
+  // color: var(--el-text-color-primary);
   text-align: center;
   line-height: 200px;
 }
 
 .el-main {
-  background-color: #e9eef3;
-  color: var(--el-text-color-primary);
-  text-align: center;
-  line-height: 160px;
+  background-color: #f6f8f9;
+
 }
 
 body > .el-container {

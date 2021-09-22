@@ -6,23 +6,23 @@ const routes = [
     {
         path: "/layout",
         name: "layout",
-        meta: { title: "首页", icon: "all" },
+        meta: { title: "管理员管理", icon: "admin" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
-                path: "/ogin",
-                name: "ogin",
-                meta: { title: "首页" },
+                path: "/adminlist",
+                name: "adminlist",
+                meta: { title: "管理员列表" },
                 component: () =>
-                    import ("@/views/Login.vue"),
+                    import ("@/views/admin/admin.vue"),
 
             },
             {
-                path: "/rolePermissions1",
-                name: "rolePermissions1",
-                meta: { title: "角色权限" },
+                path: "/jurisdiction",
+                name: "jurisdiction",
+                meta: { title: "权限列表" },
                 component: () =>
-                    import ("@/views/componentView/rolePermissions.vue"),
+                    import ("@/views/admin/jurisdiction.vue"),
             },
         ]
     },

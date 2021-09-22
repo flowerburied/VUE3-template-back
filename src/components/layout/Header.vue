@@ -2,6 +2,13 @@
   <div class="Header">
     <div class="Header-left">
       <expand style="width: 20px; height: 20px; margin-right: 8px" />
+
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="Header-right">
       <el-dropdown trigger="click">
@@ -36,7 +43,7 @@
             >
             <!-- <el-dropdown-item icon="el-icon-map-location">中文</el-dropdown-item> -->
 
-            <el-dropdown-item icon="el-icon-arrow-right">{{
+            <el-dropdown-item @click="goout" icon="el-icon-arrow-right">{{
               $t("header_menu.logout")
             }}</el-dropdown-item>
           </el-dropdown-menu>
@@ -50,6 +57,7 @@
 import { reactive, toRefs, getCurrentInstance } from "vue";
 import { Expand } from "@element-plus/icons";
 import api from "../../api/api.js";
+import router from "../../router/index";
 export default {
   name: "Header",
   components: {
@@ -87,7 +95,11 @@ export default {
       // this.$emit("toggleLang", lang);
     };
 
-    return { ...from, errorHandler, getfun, changeLang };
+    const goout = () => {
+      router.replace({ path: "/" });
+    };
+
+    return { ...from, errorHandler, getfun, changeLang, goout };
   },
 };
 </script>
@@ -98,6 +110,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  // background: #fff;
+  .Header-left {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+  }
   .Header-right {
     display: flex;
     height: 100%;
