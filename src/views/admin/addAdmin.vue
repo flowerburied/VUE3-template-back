@@ -106,11 +106,7 @@ export default {
             for (let c = 0; c < datas.jurList.length; c++) {
               let option = datas.jurList[c];
               for (let i = 0; i < getArray.length; i++) {
-                if (getArray[i].moudleId == "72") {
-                  //管理员管理
-                  option.path.push(getArray[i].id);
-                } else if (getArray[i].moudleId == "82") {
-                  //用户管理
+                if (getArray[i].moudleId == option.id) {
                   option.path.push(getArray[i].id);
                 }
               }
@@ -155,7 +151,7 @@ export default {
             message: "添加成功",
             type: "success",
           });
-          router.go(-1)
+          router.go(-1);
         } else {
           ElMessage({
             showClose: false,
