@@ -18,6 +18,38 @@ let Admin = {
             data: data
         })
     },
+    // 设置模块
+    setMoudle(data) {
+        return axios({
+            url: '/Jurisdiction/setMoudle',
+            method: 'post',
+            data: data
+        })
+    },
+    // 设置节点
+    setNode(data) {
+        return axios({
+            url: '/Jurisdiction/setNode',
+            method: 'post',
+            data: data
+        })
+    },
+    // 删除模块
+    deleteMoudle(data) {
+        return axios({
+            url: '/Jurisdiction/deleteMoudle',
+            method: 'post',
+            data: data
+        })
+    },
+    // 删除节点
+    deleteNode(data) {
+        return axios({
+            url: '/Jurisdiction/deleteNode',
+            method: 'post',
+            data: data
+        })
+    },
 
 }
 
