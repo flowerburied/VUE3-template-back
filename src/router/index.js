@@ -35,17 +35,17 @@ const routes = [
         ]
     },
     {
-        path: "/admin",
-        name: "admin",
-        meta: { title: "管理员管理", icon: "admin" },
+        path: "/user",
+        name: "user",
+        meta: { title: "用户管理", icon: "admin" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
-                path: "/admin",
-                name: "admin",
-                meta: { title: "管理员列表" },
+                path: "/user",
+                name: "user",
+                meta: { title: "用户列表" },
                 component: () =>
-                    import ("@/views/admin/admin.vue"),
+                    import ("@/views/user/user.vue"),
             },
 
         ]

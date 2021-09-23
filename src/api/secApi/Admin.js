@@ -66,6 +66,14 @@ let Admin = {
             data: data
         })
     },
+    // 删除管理员
+    DeleteAdminUser(data) {
+        return axios({
+            url: '/Member/DeleteAdminUser',
+            method: 'post',
+            data: data
+        })
+    },
 
 }
 

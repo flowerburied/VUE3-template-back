@@ -8,11 +8,12 @@ if (process.env.NODE_ENV == "development") {
 } else {
     baseURL = process.env.VUE_APP_APIURL
 }
-console.log("baseURL", baseURL)
+// console.log("baseURL", baseURL)
+console.log("baseURL", localStorage.getItem("token"))
 const service = axios.create({
     baseURL: baseURL,
     timeout: 1000,
-    // headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    headers: { 'x-session-id': localStorage.getItem("token") },
 
 });
 // console.log("process.env.VUE_APP_FLAG", process.env.VUE_APP_FLAG)

@@ -59,7 +59,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[ 100, 200, 300, 400]"
+        :page-sizes="[5, 100, 200, 300, 400]"
         :page-size="page_size"
         layout="total, sizes, prev, pager, next"
         :total="total"
@@ -87,7 +87,7 @@ export default {
       currentRow: null,
       total: 1,
       page: 1,
-      page_size: 100,
+      page_size: 5,
       testval: "正常",
     });
 
@@ -221,25 +221,20 @@ export default {
     const delAdminTrue = async () => {
       try {
         let option = {
-          moudle: 72,
-          node: 170,
-          admin_id: datas.currentRow.adminId,
+          page: datas.page,
+          page_size: datas.page_size,
         };
-        const res = await api.Admin.DeleteAdminUser(option);
-        const { code, message } = res;
+        const res = await api.Admin.getAdminUserList(option);
+        const { data, code } = res;
         if (code == 0) {
-          ElMessage({
-            showClose: false,
-            message: "删除成功",
-            type: "success",
-          });
-          getlist();
-        } else {
-          ElMessage({
-            showClose: false,
-            message: message,
-            type: "error",
-          });
+          for (let i = 0; i < data.list.length; i++) {
+            data.list[i].status = switchfun(data.list[i].status);
+          }
+          datas.tableData = data.list;
+          // console.log("data.count", data.count);
+          const total = parseInt(data.count);
+          // console.log("total",typeof(total))
+          datas.total = total;
         }
       } catch (err) {
         console.log("err!", err);
@@ -247,7 +242,6 @@ export default {
     };
 
     const handletChange = (val) => {
-      console.log("val", val);
       datas.currentRow = val;
     };
 

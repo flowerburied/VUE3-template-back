@@ -41,6 +41,7 @@
 <script>
 import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
+import router from "@/router/index";
 import api from "@/api/api";
 export default {
   components: {},
@@ -64,10 +65,14 @@ export default {
       page_size: 999,
 
       jurList: [
+        //权限列表
         {
-          children: [],
-          id: "72",
-          name: "管理员管理",
+          path: [],
+          id: "72", //管理员管理
+        },
+        {
+          path: [],
+          id: "84", //用户管理
         },
       ],
     });
@@ -89,38 +94,41 @@ export default {
     };
 
     const onSubmit = (formName) => {
-    //   console.log("getCheckedNodes", proxy.$refs.tree.getCheckedNodes());
-           console.log("getCheckedKeys", proxy.$refs.tree.getCheckedKeys());
+      //   console.log("getCheckedNodes", proxy.$refs.tree.getCheckedNodes());
+      console.log("getCheckedKeys", proxy.$refs.tree.getCheckedNodes());
       //   console.log("proxy", proxy);
       proxy.$refs[formName].validate((valid) => {
         if (valid) {
           const getArray = proxy.$refs.tree.getCheckedNodes();
-        //   if (getArray.length != 0) {
-        //     // console.log("ubmit!!");
-        //     let handleArray = [];
-        //     for (let c = 0; c < datas.jurList.length; c++) {
-        //       let option = datas.jurList[c];
-        //       for (let i = 0; i < getArray.length; i++) {
-        //         if (getArray[i].moudleId == "72") {
-        //           //管理员管理
-        //           option.children.push(getArray[i]);
-        //         }
-        //       }
-        //       if (option.children.length != 0) {
-        //         handleArray.push(option);
-        //       }
-        //     }
-        //     console.log("handleArray", handleArray);
+          if (getArray.length != 0) {
+            // console.log("ubmit!!");
+            let handleArray = [];
+            for (let c = 0; c < datas.jurList.length; c++) {
+              let option = datas.jurList[c];
+              for (let i = 0; i < getArray.length; i++) {
+                if (getArray[i].moudleId == "72") {
+                  //管理员管理
+                  option.path.push(getArray[i].id);
+                } else if (getArray[i].moudleId == "82") {
+                  //用户管理
+                  option.path.push(getArray[i].id);
+                }
+              }
+              if (option.path.length != 0) {
+                handleArray.push(option);
+              }
+            }
+            console.log("handleArray", handleArray);
 
-        //     addAdmin(handleArray);
-        //   } else {
-        //     // console.log("error submit!!");
-        //     ElMessage({
-        //       showClose: false,
-        //       message: "请选择一个权限",
-        //       type: "error",
-        //     });
-        //   }
+            addAdmin(handleArray);
+          } else {
+            // console.log("error submit!!");
+            ElMessage({
+              showClose: false,
+              message: "请选择一个权限",
+              type: "error",
+            });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -147,6 +155,7 @@ export default {
             message: "添加成功",
             type: "success",
           });
+          router.go(-1)
         } else {
           ElMessage({
             showClose: false,
