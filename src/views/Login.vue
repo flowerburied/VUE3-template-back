@@ -35,9 +35,9 @@
 
 <script>
 import { reactive, ref, toRefs, getCurrentInstance } from "vue";
-import router from "../router/index"
+import router from "@/router/index"
 // import { router } from "vue-router";
-import api from "../api/api";
+import api from "@/api/api";
 export default {
   name: "login",
   components: {},

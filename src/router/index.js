@@ -24,6 +24,14 @@ const routes = [
                 component: () =>
                     import ("@/views/admin/jurisdiction.vue"),
             },
+            {
+                path: "/addAdmin",
+                name: "addAdmin",
+                hidden: true,
+                meta: { title: "添加管理员" },
+                component: () =>
+                    import ("@/views/admin/addAdmin.vue"),
+            },
         ]
     },
     {

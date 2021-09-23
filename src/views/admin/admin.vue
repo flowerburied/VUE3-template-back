@@ -12,7 +12,7 @@
       </el-form>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-button type="success" plain>新建管理员</el-button>
+          <el-button type="success" plain @click="addAdmin">新建管理员</el-button>
         </el-form-item>
       </el-form>
       <el-table
@@ -28,7 +28,7 @@
           <template v-slot="scope">
             <el-tooltip :content="scope.row.status" placement="top">
               <el-switch
-                @change="changeswitch"
+                @change="changeswitch(scope.row)"
                 v-model="scope.row.status"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
@@ -69,6 +69,8 @@
 import { onMounted, reactive, toRefs } from "vue";
 import getTrueTime from "@/utils/getTime";
 import api from "@/api/api";
+import { ElMessage } from "element-plus";
+import router from "@/router/index"
 export default {
   components: {},
   setup() {
@@ -82,7 +84,7 @@ export default {
       total: 1,
       page: 1,
       page_size: 5,
-      testval:"正常"
+      testval: "正常",
     });
 
     const chData = toRefs(datas); // 扩展运算符用
@@ -138,8 +140,49 @@ export default {
       return getTrueTime(val);
     };
 
-    const changeswitch = (val) => {
+    const changeswitch = async (val) => {
       console.log("changeswitch", val);
+
+      try {
+        let option = {};
+        if (val.status == "正常") {
+          option = {
+            moudle: 1,
+            node: 2,
+            admin_id: val.adminId,
+            status: 1,
+          };
+        } else {
+          option = {
+            moudle: 1,
+            node: 2,
+            admin_id: val.adminId,
+            status: 2,
+          };
+        }
+
+        const res = await api.Admin.setAdminUserStatus(option);
+
+        console.log("res", res);
+        const { code, message } = res;
+        if (code == 0) {
+          getlist();
+          ElMessage({
+            showClose: false,
+            message: "设置成功",
+            type: "success",
+          });
+          datas.dialogFormVisible = false;
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
+        }
+      } catch (err) {
+        console.log("err", err);
+      }
     };
 
     const switchfun = (val) => {
@@ -151,6 +194,9 @@ export default {
       }
       return state;
     };
+    const addAdmin=()=>{
+       router.push({ path: "/addAdmin" });
+    }
 
     onMounted(() => {
       getlist();
@@ -165,6 +211,7 @@ export default {
       getTrueTime1,
       changeswitch,
       switchfun,
+      addAdmin
     };
   },
 };

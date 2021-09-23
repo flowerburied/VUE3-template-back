@@ -50,6 +50,22 @@ let Admin = {
             data: data
         })
     },
+    // 设置i管理员状态
+    setAdminUserStatus(data) {
+        return axios({
+            url: '/AdminLogin/setAdminUserStatus',
+            method: 'post',
+            data: data
+        })
+    },
+    // 设置管理员
+    setAdminUser(data) {
+        return axios({
+            url: '/AdminLogin/setAdminUser',
+            method: 'post',
+            data: data
+        })
+    },
 
 }
 
