@@ -58,20 +58,23 @@ const routes = [
         meta: { title: "组件", icon: "all" },
         component: () =>
             import ("@/views/layout/layout.vue"),
-        children: [{
+        children: [
+
+            {
+                path: "/myThreeDome",
+                name: "myThreeDome",
+                meta: { title: "Three.js" },
+                component: () =>
+                    import ("@/views/componentView/threeJs/myThreeDome.vue"),
+            },
+            {
                 path: "/rolePermissions",
                 name: "rolePermissions",
                 meta: { title: "角色权限" },
                 component: () =>
                     import ("@/views/componentView/rolePermissions.vue"),
             },
-            {
-                path: "/comForm",
-                name: "comForm",
-                meta: { title: "表单" },
-                component: () =>
-                    import ("@/views/componentView/Form/comForm.vue"),
-            },
+
         ]
 
     },

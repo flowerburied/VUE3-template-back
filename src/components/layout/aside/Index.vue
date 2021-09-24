@@ -51,7 +51,7 @@ export default defineComponent({
     const routers = options.routes;
     // const { getRoutes } = useRouter();
     // const routers = getRoutes();
-    console.log("routers", routers);
+    // console.log("routers", routers);
     // 数据
     const data = reactive({
       selectedKeys: localStorage.getItem("selectedKeys"),

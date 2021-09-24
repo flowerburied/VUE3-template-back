@@ -69,3 +69,5 @@ replace({
 ### ElementPlusError: [ElPagination] 你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档 问题时
 ！！！检查类型！！！
 用数字的就不能用字符串
+
+### 获取dom方法 compontView/threejs/mythreedome
