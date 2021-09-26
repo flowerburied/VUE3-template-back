@@ -2,20 +2,22 @@
   <div>
     <el-card>
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="审批人">
-          <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+        <el-form-item label="昵称">
+          <el-input v-model="formInline.nickname" placeholder="请输入昵称"></el-input>
         </el-form-item>
-
+        <el-form-item label="账号">
+          <el-input v-model="formInline.phone" placeholder="请输入账号"></el-input>
+        </el-form-item>
+        <el-form-item label="用户ID">
+          <el-input v-model="formInline.randid" placeholder="请输入用户ID"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-button type="success" plain @click="addAdmin">新建管理员</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="danger" plain @click="delAdmin">删除管理员</el-button>
+          <el-button type="primary" plain @click="seeDefault">查看详情</el-button>
         </el-form-item>
       </el-form>
       <el-table
@@ -27,7 +29,9 @@
         @current-change="handletChange"
       >
         <el-table-column type="index" width="50"> </el-table-column>
-        <el-table-column property="account" label="账号"> </el-table-column>
+        <el-table-column property="nickname" label="昵称"> </el-table-column>
+        <el-table-column property="phone" label="账号"> </el-table-column>
+        <el-table-column property="randId" label="用户ID"> </el-table-column>
         <el-table-column label="状态">
           <template v-slot="scope">
             <el-tooltip :content="scope.row.status" placement="top">
@@ -46,7 +50,7 @@
         <el-table-column label="创建时间">
           <!-- slot-scop 改成 v-slot！！！-->
           <template v-slot="scope">
-            {{ getTrueTime1(scope.row.addTime) }}
+            {{ getTrueTime1(scope.row.lastTime) }}
           </template>
         </el-table-column>
         <el-table-column label="最后登录时间">
@@ -56,10 +60,40 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <el-dialog v-model="dialogTableVisible">
+        <el-descriptions title="用户信息">
+          <el-descriptions-item label="用户名">{{
+            currentRow.nickname
+          }}</el-descriptions-item>
+          <el-descriptions-item label="手机号">{{
+            currentRow.phone
+          }}</el-descriptions-item>
+          <el-descriptions-item label="用户ID">{{
+            currentRow.userId
+          }}</el-descriptions-item>
+          <el-descriptions-item label="状态">{{
+            currentRow.status
+          }}</el-descriptions-item>
+          <el-descriptions-item label="是否实名">{{
+            currentRow.realname
+          }}</el-descriptions-item>
+          <el-descriptions-item label="财富值">{{
+            currentRow.wealthvalue
+          }}</el-descriptions-item>
+          <el-descriptions-item label="魅力值">{{
+            currentRow.charmvalue
+          }}</el-descriptions-item>
+          <el-descriptions-item label="账户余额">{{
+            currentRow.balance
+          }}</el-descriptions-item>
+        </el-descriptions>
+      </el-dialog>
+
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[5, 100, 200, 300, 400]"
+        :page-sizes="[100, 200, 300, 400]"
         :page-size="page_size"
         layout="total, sizes, prev, pager, next"
         :total="total"
@@ -80,40 +114,38 @@ export default {
   setup() {
     const datas = reactive({
       formInline: {
-        user: "",
-        region: "",
+        nickname: "",
+        phone: "",
+        randid: "",
+      },
+      rules: {
+        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
       tableData: [],
       currentRow: null,
       total: 1,
       page: 1,
-      page_size: 5,
+      page_size: 100,
       testval: "正常",
+      dialogTableVisible: false,
     });
 
     const chData = toRefs(datas); // 扩展运算符用
 
     const getlist = async () => {
-      // let option = {
-      //   page: 1,
-      //   page_size: 5,
-      // };
-      // api.Admin.getAdminUserList(option).then((res) => {
-      //   console.log("res", res.data.count);
-      //   const getlists = res.data.list;
-      //   datas.tableData = getlists;
-      //   console.log("datas.tableData ", datas.tableData);
-      // });
       try {
         let option = {
           page: datas.page,
           page_size: datas.page_size,
         };
-        const res = await api.Admin.getAdminUserList(option);
+        const res = await api.user.getMemberlist(option);
         const { data, code } = res;
+        console.log("res", res);
         if (code == 0) {
           for (let i = 0; i < data.list.length; i++) {
             data.list[i].status = switchfun(data.list[i].status);
+            data.list[i].realname = switchrealname(data.list[i].realname);
           }
           datas.tableData = data.list;
           // console.log("data.count", data.count);
@@ -126,8 +158,58 @@ export default {
       }
     };
 
-    const onSubmit = () => {
-      console.log("submit!");
+    const onSubmit = async () => {
+      if (
+        !datas.formInline.nickname &&
+        !datas.formInline.phone &&
+        !datas.formInline.randid
+      ) {
+        // console.log("you");
+        getlist();
+      } else {
+        // console.log("wu");
+        onSubmitTrue();
+      }
+    };
+
+    const onSubmitTrue = async () => {
+      try {
+        let option = null;
+        if (datas.formInline.randid) {
+          option = {
+            page: datas.page,
+            page_size: datas.page_size,
+            nickname: datas.formInline.nickname,
+            phone: datas.formInline.phone,
+            randid: datas.formInline.randid,
+          };
+        } else {
+          option = {
+            page: datas.page,
+            page_size: datas.page_size,
+            nickname: datas.formInline.nickname,
+            phone: datas.formInline.phone,
+            randid: 0,
+          };
+        }
+
+        const res = await api.user.UserSearch(option);
+        const { data, code } = res;
+        console.log("res", res);
+        if (code == 0) {
+          for (let i = 0; i < data.list.length; i++) {
+            data.list[i].status = switchfun(data.list[i].status);
+            data.list[i].realname = switchrealname(data.list[i].realname);
+          }
+          datas.tableData = data.list;
+          // console.log("data.count", data.count);
+          const total = parseInt(data.count);
+          // console.log("total",typeof(total))
+          datas.total = total;
+        }
+      } catch (err) {
+        console.log("err!", err);
+      }
     };
 
     const handleSizeChange = (val) => {
@@ -151,21 +233,21 @@ export default {
         let option = {};
         if (val.status == "正常") {
           option = {
-            moudle: 1,
-            node: 2,
-            admin_id: val.adminId,
+            moudle: 84,
+            node: 172,
+            user_id: val.userId,
             status: 1,
           };
         } else {
           option = {
-            moudle: 1,
-            node: 2,
-            admin_id: val.adminId,
+            moudle: 84,
+            node: 172,
+            user_id: val.userId,
             status: 2,
           };
         }
 
-        const res = await api.Admin.setAdminUserStatus(option);
+        const res = await api.user.setMemberStatus(option);
 
         console.log("res", res);
         const { code, message } = res;
@@ -198,6 +280,17 @@ export default {
       }
       return state;
     };
+
+    const switchrealname = (val) => {
+      let state = "";
+      if (val == 1) {
+        state = "已实名";
+      } else {
+        state = "未实名";
+      }
+      return state;
+    };
+
     const addAdmin = () => {
       router.push({ path: "/addAdmin" });
     };
@@ -245,6 +338,19 @@ export default {
       datas.currentRow = val;
     };
 
+    const seeDefault = () => {
+      console.log("datas.currentRow!", datas.currentRow);
+      if (datas.currentRow) {
+        datas.dialogTableVisible = true;
+      } else {
+        ElMessage({
+          showClose: false,
+          message: "请选择一个用户",
+          type: "error",
+        });
+      }
+    };
+
     onMounted(() => {
       getlist();
     });
@@ -261,6 +367,7 @@ export default {
       addAdmin,
       handletChange,
       delAdmin,
+      seeDefault,
     };
   },
 };

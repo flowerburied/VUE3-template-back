@@ -51,6 +51,23 @@ const routes = [
         ]
 
     },
+    {
+        path: "/advertisement",
+        name: "advertisement",
+        meta: { title: "广告管理", icon: "admin" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/advertisement",
+                name: "advertisement",
+                meta: { title: "广告列表" },
+                component: () =>
+                    import ("@/views/advertisement/advertisement.vue"),
+            },
+
+        ]
+
+    },
 
     {
         path: "/componentView",

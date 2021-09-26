@@ -58,14 +58,14 @@ export default {
       var axes = new THREE.AxisHelper(40);
       scene.add(axes);
 
-      const  planeGeometry = new THREE.PlaneGeometry(60, 20);
+      const planeGeometry = new THREE.PlaneGeometry(60, 20);
 
-      const  planeMaterial = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide});
+      const planeMaterial = new THREE.MeshBasicMaterial({ color: "rgb(41, 128, 185)" });
 
       // 创建地面
-      const  plane = new THREE.Mesh(planeGeometry, planeMaterial);
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
-      plane.rotation.x = 90.5 * Math.PI;
+      // plane.rotation.x = 90.5 * Math.PI;
       plane.rotation.x = 15;
       plane.rotation.y = 0;
       plane.rotation.z = 0;

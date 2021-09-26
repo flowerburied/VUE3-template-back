@@ -75,6 +75,15 @@ let Admin = {
         })
     },
 
+    // 文件上传
+    upload(data) {
+        return axios({
+            url: '/Api/upload',
+            method: 'post',
+            data: data
+        })
+    },
+
 }
 
 export default Admin

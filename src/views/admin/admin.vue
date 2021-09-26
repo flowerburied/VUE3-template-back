@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+      <!-- <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="审批人">
           <el-input v-model="formInline.user" placeholder="审批人"></el-input>
         </el-form-item>
@@ -9,7 +9,7 @@
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
           <el-button type="success" plain @click="addAdmin">新建管理员</el-button>
