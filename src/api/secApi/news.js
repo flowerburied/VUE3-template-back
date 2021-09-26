@@ -1,30 +1,32 @@
 import axios from '../../utils/request.js'
 
-let advertisement = {
-    // 轮播图列表
-    getBannerList(data) {
+let news = {
+    // 消息列表
+    getMsgList(data) {
         return axios({
-            url: '/Banner/getBannerList',
+            url: '/Officialmsg/getMsgList',
             method: 'post',
             data: data
         })
     },
-    //设置轮播图
-    setBanner(data) {
+
+    //消息详情
+    getMsgInfo(data) {
         return axios({
-            url: '/Banner/setBanner',
+            url: '/Officialmsg/getMsgInfo',
             method: 'post',
             data: data
         })
     },
-    //删除轮播图
-    deleteBanner(data) {
+
+    // 设置消息
+    setMsg(data) {
         return axios({
-            url: '/Banner/deleteBanner',
+            url: '/Officialmsg/setMsg',
             method: 'post',
             data: data
         })
     },
 }
 
-export default advertisement
+export default news

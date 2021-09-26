@@ -1,29 +1,9 @@
 <template>
   <div>
     <el-card>
-      <!-- <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="昵称">
-          <el-input v-model="formInline.nickname" placeholder="请输入昵称"></el-input>
-        </el-form-item>
-        <el-form-item label="账号">
-          <el-input v-model="formInline.phone" placeholder="请输入账号"></el-input>
-        </el-form-item>
-        <el-form-item label="用户ID">
-          <el-input v-model="formInline.randid" placeholder="请输入用户ID"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form-item>
-      </el-form> -->
       <el-form :inline="true" class="demo-form-inline">
-        <el-form-item label="活动区域" prop="region">
-          <el-select v-model="formInline.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
-          <el-button type="primary" plain @click="dialogTableVisible = true"
+          <el-button type="primary" plain @click="dialogFormVisible = true"
             >新建广告</el-button
           >
         </el-form-item>
@@ -41,40 +21,43 @@
       >
         <el-table-column type="index" width="50"> </el-table-column>
         <el-table-column property="position" label="位置"> </el-table-column>
+        <el-table-column label="图片">
+          <template v-slot="scope">
+            <el-image
+              fit="scale-down"
+              style="width: 100px; height: 100px"
+              :src="scope.row.url"
+              :preview-src-list="scope.row.srcList"
+            >
+            </el-image>
+          </template>
+        </el-table-column>
       </el-table>
 
-      <el-dialog v-model="dialogTableVisible" title="新建广告">
-        <el-form ref="formInline" label-width="80px" :model="formInline">
-          <el-form-item label="活动区域">
-            <el-select v-model="formInline.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+      <el-dialog title="收货地址" v-model="dialogFormVisible">
+        <el-form :model="form" :rules="rules" ref="ruleForm">
+          <el-form-item label="区域" prop="position">
+            <el-select v-model="form.position" placeholder="请选择区域">
+              <el-option label="首页" value="首页"></el-option>
+              <el-option label="广场" value="广场"></el-option>
             </el-select>
           </el-form-item>
-
           <el-form-item label="图片" prop="dialogImageUrl">
             <el-upload
               action="https://api.haihaixingqiu.com/Api/upload"
               list-type="picture-card"
               :on-success="handlePictureCardPreview"
               :on-remove="handleRemove"
-              :file-list="formInline.dialogImageUrl"
+              :file-list="form.dialogImageUrl"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
           </el-form-item>
-          <!-- <el-form-item>
-            <el-button type="success" plain @click="addAdver('formInline')"
-              >确认</el-button
-            >
-          </el-form-item> -->
         </el-form>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogTableVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogTableVisible = false"
-              >确 定</el-button
-            >
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="addAdver('ruleForm')">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -85,18 +68,17 @@
 <script>
 import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 import api from "@/api/api";
+import { ElMessage, ElMessageBox } from "element-plus";
 export default {
   components: {},
   setup() {
     const datas = reactive({
-      formInline: {
-        region: "",
+      form: {
         position: "",
         dialogImageUrl: [],
       },
       rules: {
-        region: [{ required: true, message: "请选择活动区域", trigger: "change" }],
-        position: [{ required: true, message: "请选择活动区域", trigger: "change" }],
+        position: [{ required: true, message: "请选择区域", trigger: "change" }],
         dialogImageUrl: [{ required: true, message: "请插入图片", trigger: "blur" }],
       },
       tableData: [],
@@ -107,6 +89,7 @@ export default {
       testval: "正常",
       dialogTableVisible: false,
       formLabelWidth: "120px",
+      dialogFormVisible: false,
     });
     const { proxy } = getCurrentInstance();
     const chData = toRefs(datas); // 扩展运算符用
@@ -117,11 +100,17 @@ export default {
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
+          for (let i = 0; i < data.length; i++) {
+            let content = JSON.parse(data[i].content);
+            data[i].url = content[0].url;
+            let contentArr = [];
+            for (let c = 0; c < content.length; c++) {
+              contentArr.push(content[c].url);
+            }
+            data[i].srcList = contentArr;
+          }
+
           datas.tableData = data;
-          // console.log("data.count", data.count);
-          const total = parseInt(data.count);
-          // console.log("total",typeof(total))
-          datas.total = total;
         }
       } catch (err) {
         console.log("err!", err);
@@ -138,25 +127,115 @@ export default {
 
     const handlePictureCardPreview = (response, file, fileList) => {
       console.log("file.url", fileList);
-      datas.formInline.dialogImageUrl = fileList;
+      datas.form.dialogImageUrl = fileList;
     };
     const handleRemove = (file, fileList) => {
       console.log(file, fileList);
-      datas.formInline.dialogImageUrl = fileList;
+      datas.form.dialogImageUrl = fileList;
     };
 
     const addAdver = (formName) => {
       // console.log("formName", formName);
-      console.log("datas.formInline.dialogImageUrl", datas.formInline.dialogImageUrl);
+      console.log("datas.dialogImageUrl", datas.form.dialogImageUrl);
       proxy.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
           console.log("submit!!");
+          addAdverTrue();
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    };
+
+    const addAdverTrue = async () => {
+      try {
+        let handleimg = [];
+
+        for (let i = 0; i < datas.form.dialogImageUrl.length; i++) {
+          let imglist = {
+            name: datas.form.dialogImageUrl[i].name,
+            url: datas.form.dialogImageUrl[i].response.data,
+          };
+          handleimg.push(imglist);
+        }
+        // console.log("handleimg", handleimg);
+
+        let option = {
+          content: JSON.stringify(handleimg),
+          position: datas.form.position,
+          moudle: 85,
+          node: 174,
+        };
+
+        // console.log("option", option);
+        const res = await api.advertisement.setBanner(option);
+        const { code, message } = res;
+        console.log("res", res);
+        if (code == 0) {
+          ElMessage({
+            showClose: false,
+            message: "成功",
+            type: "success",
+          });
+          getlist();
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
+        }
+      } catch (err) {
+        console.log("err!", err);
+      }
+    };
+
+    const delAdmin = () => {
+      if (datas.currentRow) {
+        ElMessageBox.alert("确认删除该管理员？", "删除管理员", {
+          confirmButtonText: "确定",
+          callback: () => {
+            delAdminTrue();
+          },
+        });
+      } else {
+        ElMessage({
+          showClose: false,
+          message: "请选择一个管理员",
+          type: "error",
+        });
+      }
+    };
+
+    const delAdminTrue = async () => {
+      try {
+        let option = {
+          id: datas.currentRow.id,
+          moudle: 85,
+          node: 175,
+        };
+        const res = await api.advertisement.deleteBanner(option);
+        const { code, message } = res;
+        console.log("res", res);
+        if (code == 0) {
+          ElMessage({
+            showClose: false,
+            message: "成功",
+            type: "success",
+          });
+          getlist();
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
+        }
+      } catch (err) {
+        console.log("err!", err);
+      }
     };
 
     onMounted(() => {
@@ -174,6 +253,7 @@ export default {
       handleRemove,
       handlePictureCardPreview,
       addAdver,
+      delAdmin,
     };
   },
 };

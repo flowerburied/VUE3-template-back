@@ -71,3 +71,8 @@ replace({
 用数字的就不能用字符串
 
 ### 获取dom方法 compontView/threejs/mythreedome
+
+### 富文本工具
+npm install vue-quill-editor --save
+https://www.npmjs.com/package/vue-quill-editor
+https://www.jianshu.com/p/a6cba69d6e49

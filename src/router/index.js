@@ -32,6 +32,14 @@ const routes = [
                 component: () =>
                     import ("@/views/admin/addAdmin.vue"),
             },
+            {
+                path: "/addNews",
+                name: "addNews",
+                hidden: true,
+                meta: { title: "添加消息" },
+                component: () =>
+                    import ("@/views/news/addNews.vue"),
+            },
         ]
     },
     {
@@ -66,7 +74,24 @@ const routes = [
             },
 
         ]
+    },
 
+    {
+        path: "/news",
+        name: "news",
+        meta: { title: "消息管理" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/news",
+                name: "news",
+                meta: { title: "消息列表" },
+                component: () =>
+                    import ("@/views/news/news.vue"),
+            },
+
+
+        ]
     },
 
     {
@@ -112,14 +137,7 @@ const routes = [
         component: () =>
             import ("@/views/Login.vue"),
     },
-    {
-        path: "/news",
-        name: "news",
-        hidden: true,
-        meta: { title: "新闻" },
-        component: () =>
-            import ("@/views/news/news.vue"),
-    },
+
 
 ];
 
