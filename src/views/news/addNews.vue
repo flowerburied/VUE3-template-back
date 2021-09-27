@@ -146,7 +146,7 @@ export default defineComponent({
             }
             console.log("handleArray", handleArray);
 
-            addAdmin(handleArray);
+            // addAdmin(handleArray);
           } else {
             // console.log("error submit!!");
             ElMessage({

@@ -93,6 +93,23 @@ const routes = [
 
         ]
     },
+    {
+        path: "/gift",
+        name: "gift",
+        meta: { title: "礼物管理", icon: "gift" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/gift",
+                name: "gift",
+                meta: { title: "礼物列表" },
+                component: () =>
+                    import ("@/views/gift/gift.vue"),
+            },
+
+
+        ]
+    },
 
     {
         path: "/componentView",
