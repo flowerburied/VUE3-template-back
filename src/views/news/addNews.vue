@@ -2,45 +2,63 @@
   <div>
     <el-card>
       <el-form
-        :inline="true"
+        label-width="120px"
         :rules="rules"
         ref="fromname"
         :model="formInline"
-        class="demo-form-inline"
+        label-position="right"
       >
-        <el-form-item label="标题" prop="account">
-          <el-input v-model="content" placeholder="请输入账号"></el-input>
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="formInline.title" placeholder="请输入标题"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="formInline.password" placeholder="请输入密码"></el-input>
+        <el-form-item label="预览内容" prop="previewcontent">
+          <el-input
+            v-model="formInline.previewcontent"
+            placeholder="请输入预览内容"
+          ></el-input>
         </el-form-item>
+
+        <el-form-item label="图片" prop="dialogImageUrl">
+          <el-upload
+            action="https://api.haihaixingqiu.com/Api/upload"
+            list-type="picture-card"
+            :on-success="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :file-list="formInline.dialogImageUrl"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item class="QuillEditor" label="内容" prop="content">
+          <QuillEditor
+            @textChange="textChange"
+            ref="QuillEditor"
+            toolbar="full"
+            :modules="modules"
+          />
+        </el-form-item>
+
         <el-form-item>
-          <!-- onSubmit('fromname') -->
-          <el-button type="primary" @click="getHTML">添加管理员</el-button>
+          <el-button type="success" @click="getHTML('fromname')">提交</el-button>
         </el-form-item>
       </el-form>
-      <QuillEditor
-      ref="QuillEditor"
-      :content="contentQuillEditor"
-        v-model="contentQuillEditor"
-        toolbar="full"
-        
-        :options="editorOption"
-      />
     </el-card>
   </div>
 </template>
 
 <script>
-import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
+import { onMounted, reactive, toRefs, getCurrentInstance, defineComponent } from "vue";
 import { ElMessage } from "element-plus";
 import router from "@/router/index";
 import api from "@/api/api";
 // 富文本
 import { QuillEditor } from "@vueup/vue-quill";
+import ImageUploader from "quill-image-uploader";
+// import BlotFormatter from "quill-blot-formatter";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-export default {
+export default defineComponent({
   components: {
     QuillEditor,
   },
@@ -48,20 +66,61 @@ export default {
     const { proxy } = getCurrentInstance(); //this
     const datas = reactive({
       formInline: {
-        account: "",
-        password: "",
+        title: "",
+        previewcontent: "",
+        dialogImageUrl: [],
+        content: "",
       },
       rules: {
-        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+        previewcontent: [{ required: true, message: "请输入预览内容", trigger: "blur" }],
+        dialogImageUrl: [{ required: true, message: "请插入图片", trigger: "blur" }],
+        content: [{ required: true, message: "请插入图片", trigger: "blur" }],
       },
       contentQuillEditor: "",
-      editorOption: {
-        placeholder: "Compose an epic...",
-        readOnly: false,
-        theme: "snow",
+
+      QuillEditor: null,
+
+      modules: {
+        name: "ImageUploader",
+        module: ImageUploader,
+        options: {
+          upload: (file) => {
+            return new Promise((resolve, reject) => {
+              const formData = new FormData();
+              formData.append("file", file);
+
+              fetch("https://api.haihaixingqiu.com/Api/upload", {
+                method: "POST",
+                body: formData,
+              })
+                .then((response) => response.json())
+                .then((result) => {
+                  console.log(result);
+                  resolve(result.data);
+                })
+                .catch((error) => {
+                  reject("Upload failed");
+                  console.error("Error:", error);
+                });
+            });
+          },
+          // modules: {
+          //   // ...
+          //   imageUploader: {
+          //     upload: (file) => {
+          //       return new Promise((resolve, reject) => {
+          //         setTimeout(() => {
+          //           resolve(
+          //             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png"
+          //           );
+          //         }, 3500);
+          //       });
+          //     },
+          //   },
+          // },
+        },
       },
-      QuillEditor:null
     });
 
     const onSubmit = (formName) => {
@@ -103,16 +162,19 @@ export default {
       });
     };
 
-    const addAdmin = async (handleArray) => {
+    const addNews = async () => {
       try {
         let option = {
-          moudle: 72,
-          node: 152,
-          account: datas.formInline.account,
-          password: datas.formInline.password,
-          jurisdiction: JSON.stringify(handleArray),
+          moudle: 86,
+          node: 176,
+          title: datas.formInline.title,
+          previewcontent: datas.formInline.previewcontent,
+          img: datas.formInline.dialogImageUrl[0].response.data,
+          content: datas.formInline.content,
+          id: 0,
         };
-        const res = await api.Admin.setAdminUser(option);
+        console.log("option", option);
+        const res = await api.news.setMsg(option);
 
         console.log("res", res);
         const { code } = res;
@@ -135,11 +197,34 @@ export default {
       }
     };
 
-    const getHTML = () => {
-      console.log("datas.content", datas.QuillEditor.getHTML());
+    const getHTML = (formName) => {
+      // console.log("datas.content", datas.QuillEditor.getHTML());
+      console.log("datas.getContents", datas.formInline);
+      proxy.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert("submit!");
+          addNews();
+          console.log("submit!!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     };
 
-  
+    const handlePictureCardPreview = (response, file, fileList) => {
+      console.log("file.url", fileList);
+      datas.formInline.dialogImageUrl = fileList;
+    };
+    const handleRemove = (file, fileList) => {
+      console.log(file, fileList);
+      datas.formInline.dialogImageUrl = fileList;
+    };
+
+    const textChange = () => {
+      console.log("datas.content", datas.formInline.content);
+      datas.formInline.content = datas.QuillEditor.getHTML();
+    };
 
     onMounted(() => {});
 
@@ -147,13 +232,20 @@ export default {
       ...toRefs(datas),
       onSubmit,
       getHTML,
-
+      handlePictureCardPreview,
+      handleRemove,
+      textChange,
     };
   },
-};
+});
 </script>
 
 <style lang="scss">
+.QuillEditor {
+  // height: 120px;
+  min-height: 120px;
+  margin-bottom: 120px;
+}
 .el-tree-node__content {
   padding: 5px;
 }

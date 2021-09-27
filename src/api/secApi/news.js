@@ -27,6 +27,22 @@ let news = {
             data: data
         })
     },
+    // schu消息
+    DeleteMsg(data) {
+        return axios({
+            url: '/Officialmsg/DeleteMsg',
+            method: 'post',
+            data: data
+        })
+    },
+    // schu消息
+    MsgSearch(data) {
+        return axios({
+            url: '/Search/MsgSearch',
+            method: 'post',
+            data: data
+        })
+    },
 }
 
 export default news

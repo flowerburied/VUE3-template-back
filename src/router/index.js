@@ -45,7 +45,7 @@ const routes = [
     {
         path: "/user",
         name: "user",
-        meta: { title: "用户管理", icon: "admin" },
+        meta: { title: "用户管理", icon: "user" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -62,7 +62,7 @@ const routes = [
     {
         path: "/advertisement",
         name: "advertisement",
-        meta: { title: "广告管理", icon: "admin" },
+        meta: { title: "广告管理", icon: "advertisement" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -79,7 +79,7 @@ const routes = [
     {
         path: "/news",
         name: "news",
-        meta: { title: "消息管理" },
+        meta: { title: "消息管理", icon: "news" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{

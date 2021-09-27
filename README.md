@@ -73,6 +73,9 @@ replace({
 ### 获取dom方法 compontView/threejs/mythreedome
 
 ### 富文本工具
-npm install vue-quill-editor --save
-https://www.npmjs.com/package/vue-quill-editor
-https://www.jianshu.com/p/a6cba69d6e49
+https://vueup.github.io/vue-quill/
+
+图片上传
+https://vueup.github.io/vue-quill/guide/modules.html#example
+
+案例  news/addNews

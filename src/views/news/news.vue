@@ -2,26 +2,21 @@
   <div>
     <el-card>
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="昵称">
-          <el-input v-model="formInline.nickname" placeholder="请输入昵称"></el-input>
+        <el-form-item label="标题">
+          <el-input v-model="formInline.title" placeholder="请输入标题"></el-input>
         </el-form-item>
-        <el-form-item label="账号">
-          <el-input v-model="formInline.phone" placeholder="请输入账号"></el-input>
-        </el-form-item>
-        <el-form-item label="用户ID">
-          <el-input v-model="formInline.randid" placeholder="请输入用户ID"></el-input>
-        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
       <el-form :inline="true" class="demo-form-inline">
-         <el-form-item>
+        <el-form-item>
           <el-button type="success" plain @click="addlist">添加信息</el-button>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-button type="primary" plain @click="seeDefault">查看详情</el-button>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="danger" plain @click="delAdmin">删除</el-button>
         </el-form-item>
@@ -109,14 +104,9 @@ export default {
   setup() {
     const datas = reactive({
       formInline: {
-        nickname: "",
-        phone: "",
-        randid: "",
+        title: "",
       },
-      rules: {
-        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
+
       tableData: [],
       currentRow: null,
       total: 1,
@@ -138,10 +128,6 @@ export default {
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
-          for (let i = 0; i < data.list.length; i++) {
-            data.list[i].status = switchfun(data.list[i].status);
-            data.list[i].realname = switchrealname(data.list[i].realname);
-          }
           datas.tableData = data.list;
           // console.log("data.count", data.count);
           const total = parseInt(data.count);
@@ -154,11 +140,7 @@ export default {
     };
 
     const onSubmit = async () => {
-      if (
-        !datas.formInline.nickname &&
-        !datas.formInline.phone &&
-        !datas.formInline.randid
-      ) {
+      if (!datas.formInline.title) {
         // console.log("you");
         getlist();
       } else {
@@ -169,33 +151,16 @@ export default {
 
     const onSubmitTrue = async () => {
       try {
-        let option = null;
-        if (datas.formInline.randid) {
-          option = {
-            page: datas.page,
-            page_size: datas.page_size,
-            nickname: datas.formInline.nickname,
-            phone: datas.formInline.phone,
-            randid: datas.formInline.randid,
-          };
-        } else {
-          option = {
-            page: datas.page,
-            page_size: datas.page_size,
-            nickname: datas.formInline.nickname,
-            phone: datas.formInline.phone,
-            randid: 0,
-          };
-        }
+        let option = {
+          page: datas.page,
+          page_size: datas.page_size,
+          title: datas.formInline.title,
+        };
 
-        const res = await api.user.UserSearch(option);
+        const res = await api.news.MsgSearch(option);
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
-          for (let i = 0; i < data.list.length; i++) {
-            data.list[i].status = switchfun(data.list[i].status);
-            data.list[i].realname = switchrealname(data.list[i].realname);
-          }
           datas.tableData = data.list;
           // console.log("data.count", data.count);
           const total = parseInt(data.count);
@@ -309,20 +274,26 @@ export default {
     const delAdminTrue = async () => {
       try {
         let option = {
-          page: datas.page,
-          page_size: datas.page_size,
+          moudle: 86,
+          node: 177,
+          id: datas.currentRow.id,
         };
-        const res = await api.Admin.getAdminUserList(option);
-        const { data, code } = res;
+        const res = await api.news.DeleteMsg(option);
+        const { message, code } = res;
         if (code == 0) {
-          for (let i = 0; i < data.list.length; i++) {
-            data.list[i].status = switchfun(data.list[i].status);
-          }
-          datas.tableData = data.list;
-          // console.log("data.count", data.count);
-          const total = parseInt(data.count);
-          // console.log("total",typeof(total))
-          datas.total = total;
+          getlist();
+          ElMessage({
+            showClose: false,
+            message: "设置成功",
+            type: "success",
+          });
+          datas.dialogFormVisible = false;
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
         }
       } catch (err) {
         console.log("err!", err);
