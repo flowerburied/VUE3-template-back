@@ -62,7 +62,7 @@ export default {
 
       const loader = new GLTFLoader();
       loader.load(
-        "/automobile/test003.glb",
+        "/automobile/scene.gltf",
         (glft) => {
           scene.add(glft.scene);
           renderer.render(scene, camera);

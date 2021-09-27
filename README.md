@@ -89,3 +89,6 @@ https://vueup.github.io/vue-quill/guide/modules.html#example
 three内搜索light 添加光照
 
 使用 GLTFLoader 导入外部模型
+
+md知道了前几天scene.gltf模型加载不出来的原因！！！
+因为他本身就不能用是模型问题！！！使用之前做过的案例就可以正常显示！！！
