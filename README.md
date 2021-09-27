@@ -79,3 +79,9 @@ https://vueup.github.io/vue-quill/
 https://vueup.github.io/vue-quill/guide/modules.html#example
 
 案例  news/addNews
+
+### THREE.js
+
+使用geometry来创建模型 three内搜索geometry
+
+利用BufferGeometry来创建模型 three内搜索BufferGeometry
