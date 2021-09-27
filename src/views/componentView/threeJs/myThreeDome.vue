@@ -47,57 +47,38 @@ export default {
       var camera = new THREE.PerspectiveCamera(75, width / Height, 0.1, 50000);
       // 设置渲染器
       var renderer = new THREE.WebGLRenderer({ antialias: true }); //创建渲染器 https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer
+      renderer.setClearColor(0xffffff);
       renderer.setSize(width, Height);
       datas.container.appendChild(renderer.domElement); //输出至画板
 
       // 坐标轴
       var axes = new THREE.AxesHelper(40);
       scene.add(axes);
+
+      // 光照
+      const light = new THREE.AmbientLight(0x404040); // soft white light
+      scene.add(light);
       // 生成模型
-      // const geometry = new THREE.BoxGeometry();
-      // const meterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      // const cude = new THREE.Mesh(geometry, meterial);
-      // scene.add(cude);
 
-      // const geometry1 = new THREE.ConeGeometry(5, 20, 32);
-      // const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-      // const cone = new THREE.Mesh(geometry1, material);
-      // scene.add(cone);
-      const geometry = new THREE.BufferGeometry();
-      // create a simple square shape. We duplicate the top left and bottom right
-      // vertices because each vertex needs to appear once per triangle.
-      const vertices = new Float32Array([
-        -1.0,
-        -1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        -1.0,
-        1.0,
-        1.0,
-        -1.0,
-        -1.0,
-        1.0,
-      ]);
+      const loader = new GLTFLoader();
+      loader.load(
+        "/automobile/test003.glb",
+        (glft) => {
+          scene.add(glft.scene);
+          renderer.render(scene, camera);
+        },
+        (xhr) => {
+          console.log("xhr", (xhr.loaded / xhr.total) * 100 + "% loader");
+        },
+        (error) => {
+          console.log("error", error);
+        }
+      );
 
-      // itemSize = 3 because there are 3 values (components) per vertex
-      geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh)
       // 相机坐标
-      camera.position.x = 1;
+      camera.position.x = -2;
       camera.position.y = 1;
-      camera.position.z = 5;
-
-      renderer.render(scene, camera);
+      camera.position.z = 8;
     };
 
     onMounted(() => {

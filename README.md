@@ -85,3 +85,7 @@ https://vueup.github.io/vue-quill/guide/modules.html#example
 使用geometry来创建模型 three内搜索geometry
 
 利用BufferGeometry来创建模型 three内搜索BufferGeometry
+
+three内搜索light 添加光照
+
+使用 GLTFLoader 导入外部模型
