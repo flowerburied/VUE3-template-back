@@ -32,11 +32,7 @@ export default {
   // },
   setup() {
     const datas = reactive({
-      container: null,
-      // scene: new THREE.Scene(),
-      num: Math.PI,
-      car: null,
-      camera: null,
+      container: null, //DOM对象
     });
 
     const { proxy } = getCurrentInstance();
@@ -49,7 +45,7 @@ export default {
       let width = window.innerWidth / 2;
       let Height = window.innerHeight / 2;
       var camera = new THREE.PerspectiveCamera(75, width / Height, 0.1, 50000);
-
+      // 设置渲染器
       var renderer = new THREE.WebGLRenderer({ antialias: true }); //创建渲染器 https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer
       renderer.setSize(width, Height);
       datas.container.appendChild(renderer.domElement); //输出至画板
@@ -57,11 +53,16 @@ export default {
       // 坐标轴
       var axes = new THREE.AxesHelper(40);
       scene.add(axes);
-
+      // 生成模型
       const geometry = new THREE.BoxGeometry();
       const meterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
       const cude = new THREE.Mesh(geometry, meterial);
       scene.add(cude);
+
+      const geometry1 = new THREE.ConeGeometry(5, 20, 32);
+      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      const cone = new THREE.Mesh(geometry1, material);
+      scene.add(cone);
       // 相机坐标
       camera.position.x = 1;
       camera.position.y = 1;
