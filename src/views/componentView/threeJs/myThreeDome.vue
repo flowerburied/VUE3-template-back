@@ -48,37 +48,24 @@ export default {
       //创建相机
       let width = window.innerWidth / 2;
       let Height = window.innerHeight / 2;
-      var camera = new THREE.PerspectiveCamera(50, width / Height, 0.1, 50000);
+      var camera = new THREE.PerspectiveCamera(75, width / Height, 0.1, 50000);
 
       var renderer = new THREE.WebGLRenderer({ antialias: true }); //创建渲染器 https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer
-
-      renderer.setClearColor(new THREE.Color("rgb(39, 174, 96)"));
       renderer.setSize(width, Height);
+      datas.container.appendChild(renderer.domElement); //输出至画板
 
-      var axes = new THREE.AxisHelper(40);
+      // 坐标轴
+      var axes = new THREE.AxesHelper(40);
       scene.add(axes);
 
-      const planeGeometry = new THREE.PlaneGeometry(60, 20);
-
-      const planeMaterial = new THREE.MeshBasicMaterial({ color: "rgb(41, 128, 185)" });
-
-      // 创建地面
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-      // plane.rotation.x = 90.5 * Math.PI;
-      plane.rotation.x = 15;
-      plane.rotation.y = 0;
-      plane.rotation.z = 0;
-
-      scene.add(plane);
-
-      camera.position.x = -30;
-      camera.position.y = 40;
-      camera.position.z = 30;
-
-      camera.lookAt(scene.position);
-
-      datas.container.appendChild(renderer.domElement); //输出至画板
+      const geometry = new THREE.BoxGeometry();
+      const meterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const cude = new THREE.Mesh(geometry, meterial);
+      scene.add(cude);
+      // 相机坐标
+      camera.position.x = 1;
+      camera.position.y = 1;
+      camera.position.z = 5;
 
       renderer.render(scene, camera);
     };
