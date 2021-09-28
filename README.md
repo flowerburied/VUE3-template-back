@@ -105,7 +105,7 @@ materials
 https://threejs.org/docs/index.html?q=ma#api/en/materials/MeshBasicMaterial
 
 
-点击事件
+点击事件 Raycaster
 https://threejs.org/docs/index.html?q=ray#api/en/core/Raycaster
 
 动画  npm i stats-js
@@ -113,3 +113,4 @@ https://www.npmjs.com/package/stats-js
 
 一定要放animate()方法中！！！
 !!!!animactionMixer.update(clock.getDelta())!!!!
+参考文档 https://blog.csdn.net/lin5165352/article/details/81571930

@@ -53,8 +53,8 @@ export default {
       datas.container.appendChild(renderer.domElement); //输出至画板
 
       // 坐标轴
-      var axes = new THREE.AxesHelper(40);
-      scene.add(axes);
+      // var axes = new THREE.AxesHelper(40);
+      // scene.add(axes);
 
       // 光照
       const light = new THREE.AmbientLight(0x404040, 10); // 全局光
@@ -62,28 +62,27 @@ export default {
 
       // 生成模型
 
-      // 动画
+      // 监听动画帧
       const stats = new Stats();
       stats.showPanel(0);
       datas.container.appendChild(stats.dom);
 
-      //
+      // 创建动画实例
       const animactionMixer = new THREE.AnimationMixer(scene);
-
       // 生成模型
 
       const loader = new GLTFLoader();
       loader.load(
         "/automobile/Soldier.glb",
         (glft) => {
-          // console.log("glft", glft);
+          console.log("glft", glft);
           scene.add(glft.scene);
           const animationClip = glft.animations.find(
             (animationClip) => animationClip.name == "Run"
           );
           console.log("animationClip", animationClip);
           const action = animactionMixer.clipAction(animationClip);
-          action.play();
+          // action.play();
         },
         (xhr) => {
           console.log("xhr", (xhr.loaded / xhr.total) * 100 + "% loader");
@@ -97,6 +96,27 @@ export default {
       const controls = new OrbitControls(camera, renderer.domElement);
       camera.position.set(0, 3, 2);
       controls.update();
+
+  // 监听点击事件
+      // const raycaster = new THREE.Raycaster();
+      renderer.domElement.addEventListener("click", (event) => {
+        // 获取鼠标坐标
+        const x = (event.clientX / window.innerWidth) * 2 - 1;
+        const y = -(event.clientY / window.innerHeight) * 2 + 1;
+        const mouse = new THREE.Vector2(x, y); //创建2D坐标
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera); //映射
+
+        let intersects = raycaster.intersectObjects(scene.children,true); //哪些物体被点击
+
+        // intersects = intersects.filter(
+        //   (intersect) => !(intersect.object instanceof 'GridHelper')
+        // );
+
+        console.log("intersects", intersects);
+      });
+
 
       const clock = new THREE.Clock();
       // console.log("clock", clock.getDelta());
@@ -116,6 +136,9 @@ export default {
 
         stats.end();
       }
+
+    
+
       // 开始动画
       animate();
     };
