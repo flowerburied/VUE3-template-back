@@ -92,3 +92,10 @@ three内搜索light 添加光照
 
 md知道了前几天scene.gltf模型加载不出来的原因！！！
 因为他本身就不能用是模型问题！！！使用之前做过的案例就可以正常显示！！！
+
+修改模型状态   three内搜索object
+https://threejs.org/docs/index.html?q=object#api/en/core/Object3D
+
+！！！摄像机！！！
+three内搜索controls 添加自由摄像机
+https://threejs.org/docs/index.html?q=controls#examples/en/controls/OrbitControls

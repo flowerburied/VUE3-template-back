@@ -60,25 +60,81 @@ export default {
       scene.add(light);
       // 生成模型
 
-      const loader = new GLTFLoader();
-      loader.load(
-        "/automobile/scene.gltf",
-        (glft) => {
-          scene.add(glft.scene);
-          renderer.render(scene, camera);
-        },
-        (xhr) => {
-          console.log("xhr", (xhr.loaded / xhr.total) * 100 + "% loader");
-        },
-        (error) => {
-          console.log("error", error);
+      // 生成模型
+      const geometry = new THREE.BoxGeometry();
+      const meterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const cude = new THREE.Mesh(geometry, meterial);
+      scene.add(cude);
+      // const loader = new GLTFLoader();
+      // loader.load(
+      //   "/automobile/scene.gltf",
+      //   (glft) => {
+      //     scene.add(glft.scene);
+      //     renderer.render(scene, camera);
+      //   },
+      //   (xhr) => {
+      //     console.log("xhr", (xhr.loaded / xhr.total) * 100 + "% loader");
+      //   },
+      //   (error) => {
+      //     console.log("error", error);
+      //   }
+      // );
+
+      //键盘控制相机移动
+      document.onkeydown = function (event) {
+        if (event.altKey == false) {
+          //没有按下alt键
+          switch (
+            event.key // 获取当前按下键盘键的编码
+          ) {
+            //wsad移动
+            case "w":
+              camera.position.z -= 0.5;
+              break;
+            case "s":
+              camera.position.z += 0.5;
+              break;
+            case "a":
+              camera.position.x -= 0.5;
+              break;
+            case "d":
+              camera.position.x += 0.5;
+              break;
+          }
+        } else {
+          //按住alt键
+          switch (
+            event.keyCode // 获取当前按下键盘键的编码
+          ) {
+            //相机绕轴旋转
+            case 87:
+              camera.rotation.z -= 0.5;
+              break;
+            case 83:
+              camera.rotation.z += 0.5;
+              break;
+            case 65:
+              camera.rotation.x -= 0.5;
+              break;
+            case 68:
+              camera.rotation.x += 0.5;
+              break;
+          }
         }
-      );
+      };
 
       // 相机坐标
       camera.position.x = -2;
       camera.position.y = 1;
       camera.position.z = 8;
+
+      function animate() {
+        // cude.rotation.y += 0.01; //旋转
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      // 开始动画
+      animate();
     };
 
     onMounted(() => {
