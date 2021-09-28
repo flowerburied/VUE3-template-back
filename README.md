@@ -99,3 +99,17 @@ https://threejs.org/docs/index.html?q=object#api/en/core/Object3D
 ！！！摄像机！！！
 three内搜索controls 添加自由摄像机
 https://threejs.org/docs/index.html?q=controls#examples/en/controls/OrbitControls
+
+材质
+materials
+https://threejs.org/docs/index.html?q=ma#api/en/materials/MeshBasicMaterial
+
+
+点击事件
+https://threejs.org/docs/index.html?q=ray#api/en/core/Raycaster
+
+动画  npm i stats-js
+https://www.npmjs.com/package/stats-js
+
+一定要放animate()方法中！！！
+!!!!animactionMixer.update(clock.getDelta())!!!!
