@@ -107,6 +107,10 @@ https://threejs.org/docs/index.html?q=ma#api/en/materials/MeshBasicMaterial
 
 点击事件 Raycaster
 https://threejs.org/docs/index.html?q=ray#api/en/core/Raycaster
+raycaster.intersectObjects(scene.children,true)  !!!一定要加true
+instanceof
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof
+
 
 动画  npm i stats-js
 https://www.npmjs.com/package/stats-js

@@ -34,6 +34,8 @@ export default {
   setup() {
     const datas = reactive({
       container: null, //DOM对象
+      action: null, //控制运动
+      isaction: false,
     });
 
     const { proxy } = getCurrentInstance();
@@ -53,9 +55,9 @@ export default {
       datas.container.appendChild(renderer.domElement); //输出至画板
 
       // 坐标轴
-      // var axes = new THREE.AxesHelper(40);
-      // scene.add(axes);
-
+      var axes = new THREE.AxesHelper(40);
+      scene.add(axes);
+      // const AxesHelper = axes;
       // 光照
       const light = new THREE.AmbientLight(0x404040, 10); // 全局光
       scene.add(light);
@@ -76,13 +78,16 @@ export default {
         "/automobile/Soldier.glb",
         (glft) => {
           console.log("glft", glft);
+
+          glft.scene.name = "Soldier";
           scene.add(glft.scene);
           const animationClip = glft.animations.find(
             (animationClip) => animationClip.name == "Run"
           );
           console.log("animationClip", animationClip);
-          const action = animactionMixer.clipAction(animationClip);
-          // action.play();
+          datas.action = animactionMixer.clipAction(animationClip);
+          datas.action.play();
+          datas.isaction = true;
         },
         (xhr) => {
           console.log("xhr", (xhr.loaded / xhr.total) * 100 + "% loader");
@@ -97,7 +102,7 @@ export default {
       camera.position.set(0, 3, 2);
       controls.update();
 
-  // 监听点击事件
+      // 监听点击事件
       // const raycaster = new THREE.Raycaster();
       renderer.domElement.addEventListener("click", (event) => {
         // 获取鼠标坐标
@@ -108,15 +113,40 @@ export default {
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(mouse, camera); //映射
 
-        let intersects = raycaster.intersectObjects(scene.children,true); //哪些物体被点击
+        const intersects = raycaster.intersectObjects(scene.children, true); //哪些物体被点击 ！！一定要加true
 
-        // intersects = intersects.filter(
-        //   (intersect) => !(intersect.object instanceof 'GridHelper')
-        // );
+        const intersect = intersects.filter((item) => {
+          // console.log("THREE.AxesHelper", item.object instanceof THREE.AxesHelper);
+          return !(item.object instanceof THREE.AxesHelper);
+        })[0];
 
-        console.log("intersects", intersects);
+        // console.log("THREE.AxesHelper", intersects[0].object instanceof THREE.AxesHelper);
+
+        // console.log("intersect", intersect);
+        if (intersect && isClickSoldier(intersect.object)) {
+          // console.log("intersect", intersect);
+          datas.action.stop();
+          // datas.isaction = !datas.isaction;
+          if (datas.isaction) {
+            datas.action.stop();
+          } else {
+            datas.action.play();
+          }
+          datas.isaction = !datas.isaction;
+        }
       });
 
+      function isClickSoldier(object) {
+        // console.log("object", object);
+        if (object.name == "Soldier") {
+          return object;
+        } else if (object.parent) {
+          //判断object是否有上级
+          return isClickSoldier(object.parent);
+        } else {
+          return null;
+        }
+      }
 
       const clock = new THREE.Clock();
       // console.log("clock", clock.getDelta());
@@ -136,8 +166,6 @@ export default {
 
         stats.end();
       }
-
-    
 
       // 开始动画
       animate();
