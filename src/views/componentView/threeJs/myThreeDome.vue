@@ -66,7 +66,9 @@ export default {
 
       // 监听动画帧
       const stats = new Stats();
-      stats.showPanel(0);
+      // stats.showPanel(0);
+      console.log("stats",stats)
+      stats.dom.style.position="relative"
       datas.container.appendChild(stats.dom);
 
       // 创建动画实例
@@ -152,10 +154,10 @@ export default {
       // console.log("clock", clock.getDelta());
       // animactionMixer.update(clock.getDelta());
       function animate() {
-        stats.begin();
+        // stats.begin();
         requestAnimationFrame(animate);
         controls.update();
-
+        stats.update();
         // cude.rotation.y += 0.01; //旋转
         renderer.render(scene, camera);
 
@@ -164,7 +166,7 @@ export default {
         }
         // console.log("clock", clock.getDelta());
 
-        stats.end();
+        // stats.end();
       }
 
       // 开始动画

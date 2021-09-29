@@ -105,7 +105,7 @@ materials
 https://threejs.org/docs/index.html?q=ma#api/en/materials/MeshBasicMaterial
 
 
-点击事件 Raycaster
+点击事件 Raycaster /  raycast
 https://threejs.org/docs/index.html?q=ray#api/en/core/Raycaster
 raycaster.intersectObjects(scene.children,true)  !!!一定要加true
 instanceof
@@ -118,3 +118,5 @@ https://www.npmjs.com/package/stats-js
 一定要放animate()方法中！！！
 !!!!animactionMixer.update(clock.getDelta())!!!!
 参考文档 https://blog.csdn.net/lin5165352/article/details/81571930
+
+官方文档才是yyds
