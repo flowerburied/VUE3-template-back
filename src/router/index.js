@@ -127,6 +127,13 @@ const routes = [
                     import ("@/views/componentView/threeJs/myThreeDome.vue"),
             },
             {
+                path: "/myThreeDomeRing",
+                name: "myThreeDomeRing",
+                meta: { title: "RingDome" },
+                component: () =>
+                    import ("@/views/componentView/threeJs/myThreeDomeRing.vue"),
+            },
+            {
                 path: "/rolePermissions",
                 name: "rolePermissions",
                 meta: { title: "角色权限" },

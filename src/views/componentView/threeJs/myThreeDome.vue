@@ -67,8 +67,8 @@ export default {
       // 监听动画帧
       const stats = new Stats();
       // stats.showPanel(0);
-      console.log("stats",stats)
-      stats.dom.style.position="relative"
+      console.log("stats", stats);
+      stats.dom.style.position = "relative";
       datas.container.appendChild(stats.dom);
 
       // 创建动画实例
