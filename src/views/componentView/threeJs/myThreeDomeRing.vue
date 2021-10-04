@@ -103,7 +103,28 @@ export default {
       detailsColorInput.addEventListener("input", function () {
         detailsMaterial.color.set(this.value);
       });
+
+      const texture1 = new THREE.CanvasTexture(generateTexture());
+      texture1.magFilter = THREE.NearestFilter;
+      texture1.wrapT = THREE.RepeatWrapping;
+      texture1.wrapS = THREE.RepeatWrapping;
+      texture1.repeat.set(1, 3.5);
+
       // 生成模型
+
+      function generateTexture() {
+        const canvas = document.createElement("canvas");
+        canvas.width = 2;
+        canvas.height = 2;
+
+        const context = canvas.getContext("2d");
+        context.fillStyle = "white";
+        context.fillRect(0, 1, 2, 1);
+
+        return canvas;
+      }
+
+      const geometry = new THREE.SphereGeometry(20, 64, 32);
 
       new RGBELoader().setPath("/automobile/hdr/").load("029.hdr", function (texture) {
         texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -111,6 +132,24 @@ export default {
         scene.background = texture;
         scene.environment = texture;
 
+        const material = new THREE.MeshPhysicalMaterial({
+          color: 0xffffff,
+          metalness: 0,
+          roughness: 0,
+          ior: 1.5,
+          // alphaMap: texture1,
+          envMap: texture,
+          envMapIntensity: 1,
+          transmission: 1, // use material.transmission for glass materials
+          specularIntensity: 1,
+          specularTint: 0xffffff,
+          opacity: 1,
+          side: THREE.DoubleSide,
+          transparent: true,
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
         render();
 
         // model
@@ -125,8 +164,11 @@ export default {
           //   材质
           console.log("gltf", detailsMaterial);
 
-          gltf.scene.children[3].children[0].material = detailsMaterial;
-          console.log("gltf.scene", gltf.scene);
+          gltf.scene.children[4].material = material;
+          // console.log("gltf.scene", gltf.scene);
+          // gltf.scene.children[2].children[0].material = material;
+          // gltf.scene.children[3].children[3].children[0].material = detailsMaterial;
+          // gltf.scene.children[3].children[4].children[0].children[0].material = detailsMaterial;
           // 动画
           datas.animactionMixer = new THREE.AnimationMixer(gltf.scene);
           const animationClip = gltf.animations.find(
@@ -137,12 +179,13 @@ export default {
           datas.mixer.setLoop(1, 1);
           //   datas.animactionMixer.addEventListener( 'finished', function( e ) { console.log("finished", e)} )
 
-          gltf.scene.traverse(function (child) {
-            if (child.isMesh) {
-              //   console.log("child", child);
-              roughnessMipmapper.generateMipmaps(child.material);
-            }
-          });
+          // gltf.scene.traverse(function (child) {
+          //   if (child.isMesh) {
+          //     // console.log("child", child);
+          //     roughnessMipmapper.generateMipmaps(child.material);
+          //     child.material = detailsMaterial;
+          //   }
+          // });
 
           scene.add(gltf.scene);
 
