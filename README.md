@@ -120,3 +120,7 @@ https://www.npmjs.com/package/stats-js
 参考文档 https://blog.csdn.net/lin5165352/article/details/81571930
 
 官方文档才是yyds
+
+
+灯光辅助
+https://threejs.org/docs/index.html?q=light#api/en/helpers/PointLightHelper

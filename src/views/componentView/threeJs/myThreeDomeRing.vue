@@ -29,6 +29,7 @@ import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 import Stats from "stats-js";
 import { RGBELoader } from "three/examples//jsm/loaders/RGBELoader.js";
 import { RoughnessMipmapper } from "three/examples/jsm/utils/RoughnessMipmapper.js";
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 
 // import { ModelGltf } from "vue-3d-model";
 export default {
@@ -86,7 +87,21 @@ export default {
       // 坐标轴
       var axes = new THREE.AxesHelper(40);
       scene.add(axes);
-      // 监听动画帧
+
+
+      const light = new THREE.PointLight( 0xffffff, 2, 100 );
+light.position.set( 10, 10, 10 );
+light.castShadow = true; // default false
+scene.add( light );
+const sphereSize = 1;
+const pointLightHelper = new THREE.PointLightHelper( light, sphereSize );
+scene.add( pointLightHelper );
+
+	const rectLight1 = new THREE.RectAreaLight( 0xff0000, 5, 4, 10 );
+				rectLight1.position.set( - 5, 5, 5 );
+				scene.add( rectLight1 );
+	scene.add( new RectAreaLightHelper( rectLight1 ) );
+     // 监听动画帧
       const stats = new Stats();
       // stats.showPanel(0);
       console.log("stats", stats);
@@ -124,7 +139,7 @@ export default {
         return canvas;
       }
 
-      const geometry = new THREE.SphereGeometry(20, 64, 32);
+      // const geometry = new THREE.SphereGeometry(20, 64, 32);
 
       new RGBELoader().setPath("/automobile/hdr/").load("029.hdr", function (texture) {
         texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -135,12 +150,12 @@ export default {
         const material = new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           metalness: 0,
-          roughness: 0,
+          roughness: 0.1,
           ior: 1.5,
           // alphaMap: texture1,
           envMap: texture,
           envMapIntensity: 1,
-          transmission: 1, // use material.transmission for glass materials
+          transmission: 0.9, // use material.transmission for glass materials
           specularIntensity: 1,
           specularTint: 0xffffff,
           opacity: 1,
@@ -148,8 +163,8 @@ export default {
           transparent: true,
         });
 
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
+        // const mesh = new THREE.Mesh(geometry, material);
+        // scene.add(mesh);
         render();
 
         // model
@@ -164,19 +179,23 @@ export default {
           //   材质
           console.log("gltf", detailsMaterial);
 
-          gltf.scene.children[4].material = material;
+          // gltf.scene.children[3].material = material;
           // console.log("gltf.scene", gltf.scene);
           // gltf.scene.children[2].children[0].material = material;
           // gltf.scene.children[3].children[3].children[0].material = detailsMaterial;
-          // gltf.scene.children[3].children[4].children[0].children[0].material = detailsMaterial;
+
+          gltf.scene.getObjectByName("Front_Glass").material = material;
+          gltf.scene.getObjectByName("Front_Glass003").material = material;
+
           // 动画
           datas.animactionMixer = new THREE.AnimationMixer(gltf.scene);
           const animationClip = gltf.animations.find(
             (animationClip) => animationClip.name == "Driver_door"
           );
           datas.mixer = datas.animactionMixer.clipAction(animationClip);
-          datas.mixer.play();
-          datas.mixer.setLoop(1, 1);
+          // datas.mixer.play();
+          // datas.mixer.setLoop(1, 1);
+
           //   datas.animactionMixer.addEventListener( 'finished', function( e ) { console.log("finished", e)} )
 
           // gltf.scene.traverse(function (child) {
