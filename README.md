@@ -124,3 +124,10 @@ https://www.npmjs.com/package/stats-js
 
 灯光辅助
 https://threejs.org/docs/index.html?q=light#api/en/helpers/PointLightHelper
+
+
+物体坐标轴
+https://threejs.org/examples/?q=light#webgl_shadowmap_progressive
+
+辉光
+https://threejs.org/examples/?q=glow#webgl_postprocessing_unreal_bloom_selective

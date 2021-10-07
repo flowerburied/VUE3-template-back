@@ -29,7 +29,7 @@ import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 import Stats from "stats-js";
 import { RGBELoader } from "three/examples//jsm/loaders/RGBELoader.js";
 import { RoughnessMipmapper } from "three/examples/jsm/utils/RoughnessMipmapper.js";
-import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 // import { ModelGltf } from "vue-3d-model";
 export default {
@@ -88,20 +88,19 @@ export default {
       var axes = new THREE.AxesHelper(40);
       scene.add(axes);
 
+      const light = new THREE.PointLight(0xffffff, 2, 100);
+      light.position.set(10, 10, 10);
+      light.castShadow = true; // default false
+      scene.add(light);
+      const sphereSize = 1;
+      const pointLightHelper = new THREE.PointLightHelper(light, sphereSize);
+      scene.add(pointLightHelper);
 
-      const light = new THREE.PointLight( 0xffffff, 2, 100 );
-light.position.set( 10, 10, 10 );
-light.castShadow = true; // default false
-scene.add( light );
-const sphereSize = 1;
-const pointLightHelper = new THREE.PointLightHelper( light, sphereSize );
-scene.add( pointLightHelper );
-
-	const rectLight1 = new THREE.RectAreaLight( 0xff0000, 5, 4, 10 );
-				rectLight1.position.set( - 5, 5, 5 );
-				scene.add( rectLight1 );
-	scene.add( new RectAreaLightHelper( rectLight1 ) );
-     // 监听动画帧
+      const rectLight1 = new THREE.RectAreaLight(0xffffff, 50, 10, 10);
+      rectLight1.position.set(-5, 5, 20);
+      scene.add(rectLight1);
+      scene.add(new RectAreaLightHelper(rectLight1));
+      // 监听动画帧
       const stats = new Stats();
       // stats.showPanel(0);
       console.log("stats", stats);
@@ -179,12 +178,12 @@ scene.add( pointLightHelper );
           //   材质
           console.log("gltf", detailsMaterial);
 
-          // gltf.scene.children[3].material = material;
+          // gltf.scene.children[3].material = detailsMaterial;
           // console.log("gltf.scene", gltf.scene);
           // gltf.scene.children[2].children[0].material = material;
           // gltf.scene.children[3].children[3].children[0].material = detailsMaterial;
 
-          gltf.scene.getObjectByName("Front_Glass").material = material;
+          gltf.scene.getObjectByName("Front_Glass").material = detailsMaterial;
           gltf.scene.getObjectByName("Front_Glass003").material = material;
 
           // 动画
