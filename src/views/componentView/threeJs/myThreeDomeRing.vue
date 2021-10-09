@@ -23,6 +23,8 @@
 <script>
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; //旋转摄像机
 import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 // import { Camera } from "@element-plus/icons";
@@ -33,19 +35,12 @@ import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHel
 
 // import { ModelGltf } from "vue-3d-model";
 export default {
-  components: {
-    // ModelGltf,
-  },
-  // mounted() {
-  //   let test = this.$refs.container;
-  //   console.log("test", test);
-  // },
   setup() {
     const datas = reactive({
       container: null, //DOM对象
       action: null, //控制运动
       isaction: false,
-      value: "#ffffff",
+      value: "#1e272e",
       test: null,
       mixer: null,
       clock: null,
@@ -109,7 +104,7 @@ export default {
       // 创建动画实例
       //   const animactionMixer = new THREE.AnimationMixer(scene);
       const detailsMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1e272e,
+        color: 0x130f40,
         metalness: 0,
         roughness: 0,
       });
@@ -149,12 +144,12 @@ export default {
         const material = new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           metalness: 0,
-          roughness: 0.1,
+          roughness: 0,
           ior: 1.5,
           // alphaMap: texture1,
           envMap: texture,
           envMapIntensity: 1,
-          transmission: 0.9, // use material.transmission for glass materials
+          transmission: 1, // use material.transmission for glass materials
           specularIntensity: 1,
           specularTint: 0xffffff,
           opacity: 1,
@@ -169,48 +164,105 @@ export default {
         // model
 
         // use of RoughnessMipmapper is optional
-        const roughnessMipmapper = new RoughnessMipmapper(renderer);
+        // const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
-        const loader = new GLTFLoader().setPath("/automobile/test-dome/");
-        loader.load("Audi-R8.gltf", function (gltf) {
-          console.log("gltf", gltf);
+        const loader = new OBJLoader();
+        loader.load(
+          // resource URL
+          "/automobile/test-dome/InternalEdges.obj",
+          // called when resource is loaded
+          function (object) {
+            // console.log("object", object);
+            scene.add(object);
+            // var position = new THREE.Vector3();
+            // position.setFromMatrixPosition(object.matrixWorld);
+            // console.log(position.x + "," + position.y + "," + position.z);
+            // const box = new THREE.Box3();
 
-          //   材质
-          console.log("gltf", detailsMaterial);
+            // scene.add(box);
 
-          // gltf.scene.children[3].material = detailsMaterial;
-          // console.log("gltf.scene", gltf.scene);
-          // gltf.scene.children[2].children[0].material = material;
-          // gltf.scene.children[3].children[3].children[0].material = detailsMaterial;
+            const boxsize = new THREE.Box3().setFromObject(object.children[0]);
+            console.log("boxsize", boxsize);
+            let test = boxsize.max.z + -boxsize.min.z;
+            console.log("boxsize", test.toFixed(2));
 
-          gltf.scene.getObjectByName("Front_Glass").material = detailsMaterial;
-          gltf.scene.getObjectByName("Front_Glass003").material = material;
+            // const size = boxsize.min.getSize();
+            // console.log("size", size);
+            const box1 = new THREE.BoxHelper(object.children[0]);
 
-          // 动画
-          datas.animactionMixer = new THREE.AnimationMixer(gltf.scene);
-          const animationClip = gltf.animations.find(
-            (animationClip) => animationClip.name == "Driver_door"
-          );
-          datas.mixer = datas.animactionMixer.clipAction(animationClip);
-          // datas.mixer.play();
-          // datas.mixer.setLoop(1, 1);
+            scene.add(box1);
+          },
+          // called when loading is in progresses
+          function (xhr) {
+            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          },
+          // called when loading has errors
+          function (error) {
+            console.log("An error happened", error);
+          }
+        );
 
-          //   datas.animactionMixer.addEventListener( 'finished', function( e ) { console.log("finished", e)} )
+        // const loader = new GLTFLoader().setPath("/automobile/test-dome/");
+        // loader.load(
+        //   "Audi-R8.gltf",
+        //   function (gltf) {
+        //     console.log("gltf", gltf);
 
-          // gltf.scene.traverse(function (child) {
-          //   if (child.isMesh) {
-          //     // console.log("child", child);
-          //     roughnessMipmapper.generateMipmaps(child.material);
-          //     child.material = detailsMaterial;
-          //   }
-          // });
+        //     //   材质
+        //     console.log("gltf", detailsMaterial);
 
-          scene.add(gltf.scene);
+        //     // gltf.scene.children[3].material = detailsMaterial;
+        //     // console.log("gltf.scene", gltf.scene);
+        //     // gltf.scene.children[2].children[0].material = material;
+        //     // gltf.scene.children[3].children[3].children[0].material = detailsMaterial;
 
-          roughnessMipmapper.dispose();
+        //     // const group = gltf.scene.getObjectByName("Car_Body");
+        //     // console.log("group", group);
+        //     // group.getObjectByName("Plane016").material = detailsMaterial;
+        //     // group.getObjectByName("Plane016_1").material = detailsMaterial;
 
-          render();
-        });
+        //     // gltf.scene.getObjectByName("Front_Glass").material = material;
+        //     // gltf.scene.getObjectByName("Front_Glass003").material = material;
+
+        //     // 动画
+        //     datas.animactionMixer = new THREE.AnimationMixer(gltf.scene);
+        //     const animationClip = gltf.animations.find(
+        //       (animationClip) => animationClip.name == "Driver_door"
+        //     );
+        //     datas.mixer = datas.animactionMixer.clipAction(animationClip);
+        //     // datas.mixer.play();
+        //     // datas.mixer.setLoop(1, 1);
+
+        //     //   datas.animactionMixer.addEventListener( 'finished', function( e ) { console.log("finished", e)} )
+
+        //     gltf.scene.traverse(function (child) {
+        //       if (child.isMesh) {
+        //         console.log("child", child);
+        //         roughnessMipmapper.generateMipmaps(child.material);
+
+        //         if (child.name == "Front_Glass" || child.name == 'Front_Glass003') {
+        //           child.material = material;
+        //         } else {
+        //           child.material = detailsMaterial;
+        //         }
+        //       }
+        //     });
+
+        //     scene.add(gltf.scene);
+
+        //     roughnessMipmapper.dispose();
+
+        //     render();
+        //   },
+
+        //   (xhr) => {
+        //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        //   },
+        //   // called when loading has errors
+        //   (error) => {
+        //     console.log("An error happened", error);
+        //   }
+        // );
       });
 
       function onWindowResize() {

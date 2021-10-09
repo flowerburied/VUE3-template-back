@@ -126,7 +126,7 @@ export default {
 
         // console.log("intersect", intersect);
         if (intersect && isClickSoldier(intersect.object)) {
-          // console.log("intersect", intersect);
+          console.log("intersect", intersect);
           datas.action.stop();
           // datas.isaction = !datas.isaction;
           if (datas.isaction) {
