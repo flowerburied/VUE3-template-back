@@ -135,3 +135,11 @@ https://threejs.org/examples/?q=glow#webgl_postprocessing_unreal_bloom_selective
 
 视频
 https://threejs.org/examples/#css3d_youtube
+
+
+STL模型加载
+https://www.cnblogs.com/s313139232/p/14105194.html
+
+镜头光晕
+LensFlare
+

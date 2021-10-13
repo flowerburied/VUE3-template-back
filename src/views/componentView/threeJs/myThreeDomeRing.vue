@@ -24,7 +24,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; //旋转摄像机
 import { onMounted, reactive, toRefs, getCurrentInstance } from "vue";
 // import { Camera } from "@element-plus/icons";
@@ -48,6 +48,20 @@ export default {
     });
 
     const { proxy } = getCurrentInstance();
+
+    const AreaOfTriangle = (p1, p2, p3) => {
+      let v1 = new THREE.Vector3();
+      let v2 = new THREE.Vector3();
+      // 通过两点坐标计算其中两条边构成的向量
+      v1 = p1.clone().sub(p2);
+      v2 = p1.clone().sub(p3);
+
+      let v3 = new THREE.Vector3();
+      // 三角形面积
+      v3.crossVectors(v1, v2);
+      let s = v3.length() / 2;
+      return s;
+    };
 
     const init = () => {
       console.log("proxy", proxy);
@@ -166,31 +180,68 @@ export default {
         // use of RoughnessMipmapper is optional
         // const roughnessMipmapper = new RoughnessMipmapper(renderer);
 
-        const loader = new OBJLoader();
+        const loader = new STLLoader();
         loader.load(
           // resource URL
-          "/automobile/test-dome/InternalEdges.obj",
+          "/automobile/test-dome/InternalEdges.stl",
           // called when resource is loaded
-          function (object) {
-            // console.log("object", object);
-            scene.add(object);
-            // var position = new THREE.Vector3();
-            // position.setFromMatrixPosition(object.matrixWorld);
-            // console.log(position.x + "," + position.y + "," + position.z);
-            // const box = new THREE.Box3();
+          function (geometry) {
+            console.log("geometry", geometry);
+            console.log("趋于", 3 % 3);
+            // geometry.attributes.position.array.forEach(element => {
 
-            // scene.add(box);
+            // });
 
-            const boxsize = new THREE.Box3().setFromObject(object.children[0]);
-            console.log("boxsize", boxsize);
-            let test = boxsize.max.z + -boxsize.min.z;
-            console.log("boxsize", test.toFixed(2));
 
-            // const size = boxsize.min.getSize();
-            // console.log("size", size);
-            const box1 = new THREE.BoxHelper(object.children[0]);
 
-            scene.add(box1);
+            let arraynum = geometry.attributes.position.array;
+            let getarr = [];
+
+            for (let i = 0; i < arraynum.length; i++) {
+              if (i % 3 == 0) {
+                let option = {
+                  p1: arraynum[i],
+                  p2: arraynum[i + 1],
+                  p3: arraynum[i + 2],
+                };
+                getarr.push(option);
+                // area += AreaOfTriangle(option.p1, option.p2, option.p3);
+              }
+            }
+            let area = 0.0;
+            for (let c = 0; c < getarr.length; c++) {
+              if (c % 3 == 0) {
+                const a1 = new THREE.Vector3(getarr[c].p1, getarr[c].p2, getarr[c].p3);
+                const b1 = new THREE.Vector3(
+                  getarr[c + 1].p1,
+                  getarr[c + 1].p2,
+                  getarr[c + 1].p3
+                );
+                const c1 = new THREE.Vector3(
+                  getarr[c + 2].p1,
+                  getarr[c + 2].p2,
+                  getarr[c + 2].p3
+                );
+                area += AreaOfTriangle(a1, b1, c1);
+              }
+            }
+
+            console.log("getarr", getarr);
+            console.log("area", area);
+            let material = new THREE.MeshPhongMaterial({
+              color: "#013cff",
+              opacity: 1,
+              transparent: true,
+            });
+            let mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = 0;
+            mesh.position.y = 0;
+            mesh.position.z = 0;
+            mesh.scale.set(0.4, 0.4, 0.4);
+            // mesh.scale.set(1,1,2.5);
+            mesh.rotation.set(-1.54, 0, 0);
+
+            scene.add(mesh);
           },
           // called when loading is in progresses
           function (xhr) {

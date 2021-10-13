@@ -32,14 +32,7 @@ const routes = [
                 component: () =>
                     import ("@/views/admin/addAdmin.vue"),
             },
-            {
-                path: "/addNews",
-                name: "addNews",
-                hidden: true,
-                meta: { title: "添加消息" },
-                component: () =>
-                    import ("@/views/news/addNews.vue"),
-            },
+
         ]
     },
     {
@@ -88,6 +81,14 @@ const routes = [
                 meta: { title: "消息列表" },
                 component: () =>
                     import ("@/views/news/news.vue"),
+            },
+            {
+                path: "/addNews",
+                name: "addNews",
+                hidden: true,
+                meta: { title: "添加消息" },
+                component: () =>
+                    import ("@/views/news/addNews.vue"),
             },
 
 
