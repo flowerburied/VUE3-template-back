@@ -111,6 +111,23 @@ const routes = [
 
         ]
     },
+    {
+        path: "/Guild",
+        name: "Guild",
+        meta: { title: "公会管理", icon: "Guild" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/Guild",
+                name: "Guild",
+                meta: { title: "公会列表" },
+                component: () =>
+                    import ("@/views/Guild/Guild.vue"),
+            },
+
+
+        ]
+    },
 
     {
         path: "/componentView",

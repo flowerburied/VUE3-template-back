@@ -61,6 +61,8 @@ export default {
       v3.crossVectors(v1, v2);
       let s = v3.length() / 2;
       return s;
+
+      // return p1.clone().cross(p2).dot(p3) / 6;
     };
 
     const init = () => {
@@ -185,14 +187,15 @@ export default {
           // resource URL
           "/automobile/test-dome/InternalEdges.stl",
           // called when resource is loaded
-          function (geometry) {
+          function (geometry1) {
+            const geometry = new THREE.BoxGeometry(10, 10, 10);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const cube = new THREE.Mesh(geometry, material);
             console.log("geometry", geometry);
-            console.log("趋于", 3 % 3);
+            // console.log("趋于", 3 % 3);
             // geometry.attributes.position.array.forEach(element => {
 
             // });
-
-
 
             let arraynum = geometry.attributes.position.array;
             let getarr = [];
@@ -222,26 +225,27 @@ export default {
                   getarr[c + 2].p2,
                   getarr[c + 2].p3
                 );
+                console.log("AreaOfTriangle(a1, b1, c1)",AreaOfTriangle(a1, b1, c1))
                 area += AreaOfTriangle(a1, b1, c1);
               }
             }
 
             console.log("getarr", getarr);
             console.log("area", area);
-            let material = new THREE.MeshPhongMaterial({
-              color: "#013cff",
-              opacity: 1,
-              transparent: true,
-            });
-            let mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x = 0;
-            mesh.position.y = 0;
-            mesh.position.z = 0;
-            mesh.scale.set(0.4, 0.4, 0.4);
-            // mesh.scale.set(1,1,2.5);
-            mesh.rotation.set(-1.54, 0, 0);
+            // let material = new THREE.MeshPhongMaterial({
+            //   color: "#013cff",
+            //   opacity: 1,
+            //   transparent: true,
+            // });
+            // let mesh = new THREE.Mesh(geometry, material);
+            // mesh.position.x = 0;
+            // mesh.position.y = 0;
+            // mesh.position.z = 0;
+            // mesh.scale.set(0.4, 0.4, 0.4);
+            // // mesh.scale.set(1,1,2.5);
+            // mesh.rotation.set(-1.54, 0, 0);
 
-            scene.add(mesh);
+            scene.add(cube);
           },
           // called when loading is in progresses
           function (xhr) {
