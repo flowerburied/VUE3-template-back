@@ -128,6 +128,23 @@ const routes = [
 
         ]
     },
+    {
+        path: "/agreement",
+        name: "agreement",
+        meta: { title: "用户协议管理", icon: "agreement" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/agreement",
+                name: "agreement",
+                meta: { title: "用户协议列表" },
+                component: () =>
+                    import ("@/views/agreement/agreement.vue"),
+            },
+
+
+        ]
+    },
 
     {
         path: "/componentView",
