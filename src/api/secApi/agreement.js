@@ -25,7 +25,22 @@ let agreement = {
             data: data
         })
     },
-
+    // 设置协议状态
+    setAgreementStatus(data) {
+        return axios({
+            url: '/Agreement/setAgreementStatus',
+            method: 'post',
+            data: data
+        })
+    },
+    // 协议搜索
+    AgreementSearch(data) {
+        return axios({
+            url: '/Search/AgreementSearch',
+            method: 'post',
+            data: data
+        })
+    },
 }
 
 export default agreement

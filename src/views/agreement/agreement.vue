@@ -3,8 +3,14 @@
     <el-card>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="名称">
-          <el-input v-model="formInline.name" placeholder="请输入名称"></el-input>
+          <el-input v-model="formInline.title" placeholder="请输入名称"></el-input>
         </el-form-item>
+
+        <el-select v-model="formInline.type" placeholder="请选择协议类型">
+          <el-option label="用户协议" value="1"></el-option>
+          <el-option label="隐私政策" value="2"></el-option>
+          <el-option label="社区规范" value="3"></el-option>
+        </el-select>
 
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -31,19 +37,29 @@
         <el-table-column type="index" width="50"> </el-table-column>
         <el-table-column property="title" label="协议标题"> </el-table-column>
         <!-- <el-table-column property="price" label="价格"> </el-table-column> -->
-            <el-table-column label="状态">
+        <el-table-column label="状态">
           <template v-slot="scope">
-            <el-tooltip :content="scope.row.status" placement="top">
+            <!-- <el-tooltip :content="scope.row.status" placement="top">
               <el-switch
                 @change="changeswitch(scope.row)"
                 v-model="scope.row.status"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
-                active-value="正常"
-                inactive-value="锁定"
+                active-value="使用中"
+                inactive-value="已作废"
               >
               </el-switch>
-            </el-tooltip>
+            </el-tooltip> -->
+
+            <el-select
+              @change="changeswitch(scope.row)"
+              v-model="scope.row.status"
+              placeholder="请选择协议类型"
+            >
+              <el-option label="编辑中" value="1"></el-option>
+              <el-option label="使用中" value="2"></el-option>
+              <el-option label="已作废" value="3"></el-option>
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column label="类型">
@@ -126,7 +142,7 @@ export default {
   setup() {
     const { proxy } = getCurrentInstance();
     const datas = reactive({
-      formInline: { name: "" },
+      formInline: { title: "", type: "" },
 
       form: {
         title: "",
@@ -178,6 +194,17 @@ export default {
 
     const chData = toRefs(datas); // 扩展运算符用
 
+    const switchfuntype = (val) => {
+      let state = "";
+      if (val == 1) {
+        state = "编辑中";
+      } else if (val == 2) {
+        state = "使用中";
+      } else if (val == 3) {
+        state = "已作废";
+      }
+      return state;
+    };
     const getlist = async () => {
       try {
         let option = {
@@ -188,7 +215,11 @@ export default {
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
+          for (let i = 0; i < data.list.length; i++) {
+            data.list[i].status = switchfuntype(data.list[i].status);
+          }
           datas.tableData = data.list;
+
           // console.log("data.count", data.count);
           const total = parseInt(data.count);
           // console.log("total",typeof(total))
@@ -200,7 +231,7 @@ export default {
     };
 
     const onSubmit = async () => {
-      if (!datas.formInline.name) {
+      if (!datas.formInline.title && !datas.formInline.type) {
         // console.log("you");
         getlist();
       } else {
@@ -214,10 +245,11 @@ export default {
         let option = {
           page: datas.page,
           page_size: datas.page_size,
-          name: datas.formInline.name,
+          title: datas.formInline.title,
+          type: datas.formInline.type,
         };
 
-        const res = await api.gift.GiftSearch(option);
+        const res = await api.agreement.AgreementSearch(option);
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
@@ -250,24 +282,15 @@ export default {
       console.log("changeswitch", val);
 
       try {
-        let option = {};
-        if (val.status == "正常") {
-          option = {
-            moudle: 84,
-            node: 172,
-            user_id: val.userId,
-            status: 1,
-          };
-        } else {
-          option = {
-            moudle: 84,
-            node: 172,
-            user_id: val.userId,
-            status: 2,
-          };
-        }
+        let option = {
+          moudle: 89,
+          node: 184,
+          id: val.id,
+          status: val.status,
+        };
 
-        const res = await api.user.setMemberStatus(option);
+        console.log("option", option);
+        const res = await api.agreement.setAgreementStatus(option);
 
         console.log("res", res);
         const { code, message } = res;
@@ -394,7 +417,7 @@ export default {
         if (valid) {
           // alert("submit!");
           console.log("submit!!");
-            addGiftTrue();
+          addGiftTrue();
         } else {
           console.log("error submit!!");
           return false;
