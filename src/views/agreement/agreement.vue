@@ -31,9 +31,19 @@
         <el-table-column type="index" width="50"> </el-table-column>
         <el-table-column property="title" label="协议标题"> </el-table-column>
         <!-- <el-table-column property="price" label="价格"> </el-table-column> -->
-        <el-table-column label="状态">
+            <el-table-column label="状态">
           <template v-slot="scope">
-            {{ scope.row.status == 1 ? "使用中" : "已过期" }}
+            <el-tooltip :content="scope.row.status" placement="top">
+              <el-switch
+                @change="changeswitch(scope.row)"
+                v-model="scope.row.status"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-value="正常"
+                inactive-value="锁定"
+              >
+              </el-switch>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column label="类型">
@@ -69,7 +79,8 @@
               ref="QuillEditor"
               toolbar="full"
               :modules="modules"
-              v-model="content"
+              :content="form.content"
+              contentType="html"
             />
           </el-form-item>
         </el-form>
@@ -120,8 +131,7 @@ export default {
       form: {
         title: "",
         type: "",
-        content:
-          "<p>“嗨嗨”用户协议是您（下称“用户”）与“嗨嗨”之间签订的协议。“嗨嗨”软件是一款语音网络社交工具。</p>",
+        content: "",
       },
       rules: {
         title: [{ required: true, message: "请输入协议标题", trigger: "blur" }],
@@ -316,11 +326,11 @@ export default {
     const delTrue = async () => {
       try {
         let option = {
-          moudle: 87,
-          node: 179,
+          moudle: 89,
+          node: 182,
           id: datas.currentRow.id,
         };
-        const res = await api.gift.deleteGift(option);
+        const res = await api.agreement.deleteAgreement(option);
         const { message, code } = res;
         if (code == 0) {
           getlist();
@@ -384,7 +394,7 @@ export default {
         if (valid) {
           // alert("submit!");
           console.log("submit!!");
-          //   addGiftTrue();
+            addGiftTrue();
         } else {
           console.log("error submit!!");
           return false;
@@ -395,17 +405,14 @@ export default {
     const addGiftTrue = async () => {
       try {
         let option = {
-          moudle: 87,
-          node: 178,
-          url: datas.form.fileList[0].response.data,
-          price: datas.form.price * 100,
+          content: datas.form.content,
           type: datas.form.type,
-          name: datas.form.name,
-          cover: datas.form.dialogImageUrl[0].response.data,
+          title: datas.form.title,
+          id: 0,
         };
 
         // console.log("option", option);
-        const res = await api.gift.setGift(option);
+        const res = await api.agreement.setAgreement(option);
         const { code, message } = res;
         console.log("res", res);
         if (code == 0) {
@@ -437,19 +444,16 @@ export default {
       datas.form.content = datas.QuillEditor.getHTML();
     };
 
-    const setHTML = () => {
-      datas.QuillEditor.setHTML(datas.form.content);
-    };
+    // const setHTML = () => {
+    //   datas.QuillEditor.setHTML(datas.form.content);
+    // };
 
     const addnews = () => {
       datas.dialogTableVisible = true;
 
- 
-
-      setTimeout(() => {
-            setHTML();
-      }, 500);
-    
+      // setTimeout(() => {
+      //       setHTML();
+      // }, 500);
     };
     onMounted(() => {
       getlist();
