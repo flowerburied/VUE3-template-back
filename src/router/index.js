@@ -145,6 +145,30 @@ const routes = [
 
         ]
     },
+    {
+        path: "/report",
+        name: "report",
+        meta: { title: "举报管理", icon: "report" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/report",
+                name: "report",
+                meta: { title: "举报列表" },
+                component: () =>
+                    import ("@/views/report/report.vue"),
+            },
+            {
+                path: "/replyReport",
+                name: "replyReport",
+                hidden: true,
+                meta: { title: "举报详情" },
+                component: () =>
+                    import ("@/views/report/replyReport.vue"),
+            },
+
+        ]
+    },
 
     {
         path: "/componentView",

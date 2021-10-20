@@ -6,6 +6,7 @@ import news from './secApi/news.js';
 import gift from './secApi/gift.js';
 import Guild from './secApi/Guild.js';
 import agreement from './secApi/agreement.js';
+import report from './secApi/report.js';
 let api = {
     template,
     Admin,
@@ -14,7 +15,8 @@ let api = {
     news,
     gift,
     Guild,
-    agreement
+    agreement,
+    report
 }
 
 export default api

@@ -185,10 +185,10 @@ export default {
         const loader = new STLLoader();
         loader.load(
           // resource URL
-          "/automobile/test-dome/InternalEdges.stl",
+          "/automobile/test-dome/test001.stl",
           // called when resource is loaded
-          function (geometry1) {
-            const geometry = new THREE.BoxGeometry(10, 10, 10);
+          function (geometry) {
+            const geometry1 = new THREE.BoxGeometry(10, 10, 10);
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const cube = new THREE.Mesh(geometry, material);
             console.log("geometry", geometry);
@@ -199,7 +199,7 @@ export default {
 
             let arraynum = geometry.attributes.position.array;
             let getarr = [];
-
+            let area = 0.0;
             for (let i = 0; i < arraynum.length; i++) {
               if (i % 3 == 0) {
                 let option = {
@@ -211,7 +211,7 @@ export default {
                 // area += AreaOfTriangle(option.p1, option.p2, option.p3);
               }
             }
-            let area = 0.0;
+
             for (let c = 0; c < getarr.length; c++) {
               if (c % 3 == 0) {
                 const a1 = new THREE.Vector3(getarr[c].p1, getarr[c].p2, getarr[c].p3);
@@ -225,7 +225,8 @@ export default {
                   getarr[c + 2].p2,
                   getarr[c + 2].p3
                 );
-                console.log("AreaOfTriangle(a1, b1, c1)",AreaOfTriangle(a1, b1, c1))
+                console.log("AreaOfTriangle(a1, b1, c1)", a1);
+                console.log("AreaOfTriangle", AreaOfTriangle(a1, b1, c1));
                 area += AreaOfTriangle(a1, b1, c1);
               }
             }
