@@ -2,25 +2,40 @@
   <div>
     <el-card>
       <el-form :inline="true" class="demo-form-inline">
-        <el-form-item label="名称">
-          <el-input v-model="formInline.title" placeholder="请输入名称"></el-input>
+        <el-form-item label="被举报人ID">
+          <el-input
+            v-model="formInline.ReportrandId"
+            placeholder="请输入被举报人ID"
+          ></el-input>
         </el-form-item>
-
-        <el-select v-model="formInline.type" placeholder="请选择协议类型">
-          <el-option label="用户协议" value="1"></el-option>
-          <el-option label="隐私政策" value="2"></el-option>
-          <el-option label="社区规范" value="3"></el-option>
-        </el-select>
-
+        <el-form-item label="协议类型">
+          <el-select v-model="formInline.type" placeholder="请选择协议类型">
+            <el-option label="政治敏感" value="1"></el-option>
+            <el-option label="广告骚扰" value="2"></el-option>
+            <el-option label="色情低俗" value="3"></el-option>
+            <el-option label="诈骗信息" value="4"></el-option>
+            <el-option label="个人信息安全" value="5"></el-option>
+            <el-option label="危害未成年人" value="6"></el-option>
+            <el-option label="其他" value="7"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="日期">
+          <el-date-picker
+            v-model="formInline.value1"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          >
+          </el-date-picker>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-button type="success" plain @click="replyReport"
-            >回复</el-button
-          >
+          <el-button type="success" plain @click="replyReport">回复</el-button>
         </el-form-item>
         <!-- <el-form-item>
           <el-button type="danger" plain @click="del">删除</el-button>
@@ -117,7 +132,7 @@ export default {
   setup() {
     const { proxy } = getCurrentInstance();
     const datas = reactive({
-      formInline: { title: "", type: "" },
+      formInline: { ReportrandId: "", type: "", value1: null },
 
       form: {
         title: "",
@@ -214,7 +229,12 @@ export default {
     };
 
     const onSubmit = async () => {
-      if (!datas.formInline.title && !datas.formInline.type) {
+      console.log("datas.formInline",datas.formInline)
+      if (
+        !datas.formInline.ReportrandId &&
+        !datas.formInline.type &&
+        !datas.formInline.value1
+      ) {
         // console.log("you");
         getlist();
       } else {
@@ -225,18 +245,44 @@ export default {
 
     const onSubmitTrue = async () => {
       try {
+        let gettime = ['0', '0'];
+        if (datas.formInline.value1) {
+          gettime = datas.formInline.value1;
+          gettime[0] = Math.round(
+            new Date(gettime[0]).getTime() / 1000
+          ).toString();
+          gettime[1] = Math.round(
+            new Date(gettime[1]).getTime() / 1000
+          ).toString();
+        } 
+        let gettype = 0;
+        if (datas.formInline.type) {
+          gettype = datas.formInline.type;
+        }
+
+        let getid = 0;
+        if (datas.formInline.ReportrandId) {
+          gettype = datas.formInline.ReportrandId;
+        }
+
         let option = {
           page: datas.page,
           page_size: datas.page_size,
-          title: datas.formInline.title,
-          type: datas.formInline.type,
+          type: gettype,
+          ReportrandId: getid,
+          starttime: gettime[0],
+          endtime: gettime[1],
         };
 
-        const res = await api.agreement.AgreementSearch(option);
+        const res = await api.report.ReportSearch(option);
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
+          for (let i = 0; i < data.list.length; i++) {
+            data.list[i].type = switchfuntype(data.list[i].type);
+          }
           datas.tableData = data.list;
+
           // console.log("data.count", data.count);
           const total = parseInt(data.count);
           // console.log("total",typeof(total))
@@ -310,7 +356,21 @@ export default {
     };
 
     const replyReport = () => {
-      router.push({ path: "/replyReport" });
+      console.log("datas.currentRow", datas.currentRow);
+      if (datas.currentRow) {
+        router.push({
+          path: "/replyReport",
+          query: {
+            currentRow: JSON.stringify(datas.currentRow),
+          },
+        });
+      } else {
+        ElMessage({
+          showClose: false,
+          message: "请选择一个",
+          type: "error",
+        });
+      }
     };
 
     const del = () => {

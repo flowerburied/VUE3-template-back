@@ -17,6 +17,14 @@ let template = {
             data: data
         })
     },
+    // 举报信息搜索
+    ReportSearch(data) {
+        return axios({
+            url: '/Search/ReportSearch',
+            method: 'post',
+            data: data
+        })
+    },
 
 
 }

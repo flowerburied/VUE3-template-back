@@ -50,19 +50,19 @@ export default {
     const { proxy } = getCurrentInstance();
 
     const AreaOfTriangle = (p1, p2, p3) => {
-      let v1 = new THREE.Vector3();
-      let v2 = new THREE.Vector3();
-      // 通过两点坐标计算其中两条边构成的向量
-      v1 = p1.clone().sub(p2);
-      v2 = p1.clone().sub(p3);
+      // let v1 = new THREE.Vector3();
+      // let v2 = new THREE.Vector3();
+      // // 通过两点坐标计算其中两条边构成的向量
+      // v1 = p1.clone().sub(p2);
+      // v2 = p1.clone().sub(p3);
 
-      let v3 = new THREE.Vector3();
-      // 三角形面积
-      v3.crossVectors(v1, v2);
-      let s = v3.length() / 2;
-      return s;
+      // let v3 = new THREE.Vector3();
+      // // 三角形面积
+      // v3.crossVectors(v1, v2);
+      // let s = v3.length() / 2;
+      // return s;
 
-      // return p1.clone().cross(p2).dot(p3) / 6;
+      return p1.clone().cross(p2).dot(p3) / 6;
     };
 
     const init = () => {
