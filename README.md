@@ -103,7 +103,7 @@ https://threejs.org/docs/index.html?q=controls#examples/en/controls/OrbitControl
 材质
 materials
 https://threejs.org/docs/index.html?q=ma#api/en/materials/MeshBasicMaterial
-
+https://threejs.org/examples/?q=m#webgl_materials_physical_transmission
 
 点击事件 Raycaster /  raycast
 https://threejs.org/docs/index.html?q=ray#api/en/core/Raycaster
@@ -112,7 +112,9 @@ instanceof
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof
 
 
-动画  npm i stats-js
+动画  
+animation
+npm i stats-js
 https://www.npmjs.com/package/stats-js
 
 一定要放animate()方法中！！！

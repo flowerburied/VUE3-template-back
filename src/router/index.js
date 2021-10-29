@@ -188,9 +188,16 @@ const routes = [
             {
                 path: "/myThreeDomeRing",
                 name: "myThreeDomeRing",
-                meta: { title: "RingDome" },
+                meta: { title: "计算公式" },
                 component: () =>
                     import ("@/views/componentView/threeJs/myThreeDomeRing.vue"),
+            },
+            {
+                path: "/myThreeDomeCar",
+                name: "myThreeDomeCar",
+                meta: { title: "汽车渲染" },
+                component: () =>
+                    import ("@/views/componentView/threeJs/myThreeDomeCar.vue"),
             },
             {
                 path: "/rolePermissions",
