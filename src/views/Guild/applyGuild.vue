@@ -12,12 +12,10 @@
       </el-form>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-button type="success" plain @click="dialogTableVisible = true"
-            >添加信息</el-button
-          >
+          <el-button type="success" plain @click="adopt">通过</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" plain @click="del">删除</el-button>
+          <el-button type="danger" plain @click="refuse">拒绝</el-button>
         </el-form-item>
       </el-form>
       <el-table
@@ -29,7 +27,7 @@
         @current-change="handletChange"
       >
         <el-table-column type="index" width="50"> </el-table-column>
-        <el-table-column property="unionid" label="公会ID"> </el-table-column>
+        <!-- <el-table-column property="unionid" label="公会ID"> </el-table-column> -->
         <el-table-column property="name" label="公会名称"> </el-table-column>
         <el-table-column property="uid" label="申请人ID"> </el-table-column>
         <!-- <el-table-column property="price" label="价格"> </el-table-column> -->
@@ -50,56 +48,14 @@
 
       <el-dialog v-model="dialogTableVisible">
         <el-form :model="form" :rules="rules" ref="formInline">
-          <el-form-item label="礼物名称" prop="name">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-
-          <el-form-item label="礼物价格" prop="price">
-            <el-input v-model="form.price"></el-input>
-          </el-form-item>
-          <el-form-item label="礼物类型" prop="type">
-            <el-select v-model="form.type" placeholder="请选择活动区域">
-              <el-option label="普通礼物" value="1"></el-option>
-              <el-option label="亲密值礼物" value="2"></el-option>
-              <el-option label="cp礼物" value="3"></el-option>
-              <el-option label="头像框" value="4"></el-option>
-              <el-option label="房间背景" value="5"></el-option>
-              <el-option label="挚友" value="6"></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="图片" prop="dialogImageUrl">
-            <el-upload
-              action="https://api.haihaixingqiu.com/Api/upload"
-              list-type="picture-card"
-              :on-success="handlePictureCardPreview"
-              :on-remove="handleRemove"
-              :file-list="form.dialogImageUrl"
-              limit="1"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-          </el-form-item>
-
-          <el-form-item label="svga动画" prop="fileList">
-            <el-upload
-              class="upload-demo"
-              action="https://api.haihaixingqiu.com/Api/upload"
-              :file-list="form.fileList"
-              :on-success="handlefike"
-              :on-remove="handleRemovefile"
-            >
-              <el-button size="small" type="primary">上传</el-button>
-              <template #tip>
-                <div class="el-upload__tip">请上传文件</div>
-              </template>
-            </el-upload>
+          <el-form-item label="拒绝原因" prop="reason">
+            <el-input :rows="2" type="textarea" v-model="form.reason"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogTableVisible = false">取 消</el-button>
-            <el-button type="primary" @click="addGift('formInline')">确 定</el-button>
+            <el-button type="primary" @click="refuseGuild('formInline')">确 定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -130,18 +86,10 @@ export default {
     const datas = reactive({
       formInline: { name: "" },
       form: {
-        name: "",
-        price: "",
-        type: "",
-        dialogImageUrl: [],
-        fileList: [],
+        reason: "",
       },
       rules: {
-        name: [{ required: true, message: "请输入礼物名称", trigger: "blur" }],
-        price: [{ required: true, message: "请输入礼物价格", trigger: "blur" }],
-        type: [{ required: true, message: "请选择类型", trigger: "change" }],
-        dialogImageUrl: [{ required: true, message: "请插入图片", trigger: "blur" }],
-        fileList: [{ required: true, message: "请插入动画", trigger: "blur" }],
+        reason: [{ required: true, message: "请输入拒绝原因", trigger: "blur" }],
       },
       tableData: [],
       currentRow: null,
@@ -160,7 +108,7 @@ export default {
           page: datas.page,
           page_size: datas.page_size,
         };
-        const res = await api.Guild.getUnionList(option);
+        const res = await api.Guild.getUnionApplyList(option);
         const { data, code } = res;
         console.log("res", res);
         if (code == 0) {
@@ -283,53 +231,6 @@ export default {
       router.push({ path: "/addNews" });
     };
 
-
-    const adopt = () => {
-      if (datas.currentRow) {
-        ElMessageBox.alert("是否通过申请", "公会申请", {
-          confirmButtonText: "确定",
-          callback: () => {
-            adoptTrue();
-          },
-        });
-      } else {
-        ElMessage({
-          showClose: false,
-          message: "请选择一个",
-          type: "error",
-        });
-      }
-    };
- const adoptTrue = async () => {
-      try {
-        let option = {
-          moudle: 88,
-          node: 186,
-          id: datas.currentRow.id,
-        };
-        const res = await api.Guild.ApplyUnion(option);
-        const { message, code } = res;
-        if (code == 0) {
-          getlist();
-          ElMessage({
-            showClose: false,
-            message: "成功",
-            type: "success",
-          });
-          // datas.dialogFormVisible = false;
-        } else {
-          ElMessage({
-            showClose: false,
-            message: message,
-            type: "error",
-          });
-        }
-      } catch (err) {
-        console.log("err!", err);
-      }
-    };
-
-
     const del = () => {
       if (datas.currentRow) {
         ElMessageBox.alert("确认删除？", "删除", {
@@ -410,14 +311,14 @@ export default {
       datas.form.fileList = fileList;
     };
 
-    const addGift = (formName) => {
+    const refuseGuild = (formName) => {
       // console.log("formName", formName);
       console.log("datas.dialogImageUrl", datas.form.dialogImageUrl);
       proxy.$refs[formName].validate((valid) => {
         if (valid) {
           // alert("submit!");
           console.log("submit!!");
-          addGiftTrue();
+          refuseGuildTrue();
         } else {
           console.log("error submit!!");
           return false;
@@ -425,20 +326,17 @@ export default {
       });
     };
 
-    const addGiftTrue = async () => {
+    const refuseGuildTrue = async () => {
       try {
         let option = {
-          moudle: 87,
-          node: 178,
-          url: datas.form.fileList[0].response.data,
-          price: datas.form.price * 100,
-          type: datas.form.type,
-          name: datas.form.name,
-          cover: datas.form.dialogImageUrl[0].response.data,
+          moudle: 88,
+          node: 187,
+          id: datas.currentRow.id,
+          reason: datas.form.reason,
         };
 
         // console.log("option", option);
-        const res = await api.gift.setGift(option);
+        const res = await api.Guild.RefuseUnionApply(option);
         const { code, message } = res;
         console.log("res", res);
         if (code == 0) {
@@ -462,6 +360,62 @@ export default {
       }
     };
 
+    const refuse = () => {
+      if (datas.currentRow) {
+        datas.dialogTableVisible = true;
+      } else {
+        ElMessage({
+          showClose: false,
+          message: "请选择一个",
+          type: "error",
+        });
+      }
+    };
+
+    const adopt = () => {
+      if (datas.currentRow) {
+        ElMessageBox.alert("是否通过申请", "公会申请", {
+          confirmButtonText: "确定",
+          callback: () => {
+            adoptTrue();
+          },
+        });
+      } else {
+        ElMessage({
+          showClose: false,
+          message: "请选择一个",
+          type: "error",
+        });
+      }
+    };
+    const adoptTrue = async () => {
+      try {
+        let option = {
+          moudle: 88,
+          node: 186,
+          id: datas.currentRow.id,
+        };
+        const res = await api.Guild.ApplyUnion(option);
+        const { message, code } = res;
+        if (code == 0) {
+          getlist();
+          ElMessage({
+            showClose: false,
+            message: "成功",
+            type: "success",
+          });
+          // datas.dialogFormVisible = false;
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
+        }
+      } catch (err) {
+        console.log("err!", err);
+      }
+    };
     const resetForm = () => {
       proxy.$refs["formInline"].resetFields();
     };
@@ -472,7 +426,7 @@ export default {
 
     return {
       ...chData,
-      addGift,
+      refuseGuild,
       handlefike,
       handleRemovefile,
       onSubmit,
@@ -488,11 +442,8 @@ export default {
       seeDefault,
       handlePictureCardPreview,
       handleRemove,
-      
-  adopt 
-
-
-
+      adopt,
+      refuse,
     };
   },
 };

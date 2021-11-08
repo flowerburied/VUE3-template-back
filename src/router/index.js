@@ -124,6 +124,13 @@ const routes = [
                 component: () =>
                     import ("@/views/Guild/Guild.vue"),
             },
+            {
+                path: "/applyGuild",
+                name: "applyGuild",
+                meta: { title: "申请公会列表" },
+                component: () =>
+                    import ("@/views/Guild/applyGuild.vue"),
+            },
 
 
         ]
