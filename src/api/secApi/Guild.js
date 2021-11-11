@@ -42,6 +42,33 @@ let Guild = {
             data: data
         })
     },
+
+    // 房间申请列表
+    getRoomApplyList(data) {
+        return axios({
+            url: '/UnionAdmin/getRoomApplyList',
+            method: 'post',
+            data: data
+        })
+    },
+    // 通过房间申请
+    AdoptRoomApply(data) {
+        return axios({
+            url: '/UnionAdmin/AdoptRoomApply',
+            method: 'post',
+            data: data
+        })
+    },
+    // 拒绝房间申请
+    RefuseRoomApply(data) {
+        return axios({
+            url: '/UnionAdmin/RefuseRoomApply',
+            method: 'post',
+            data: data
+        })
+    },
+
+
 }
 
 export default Guild
