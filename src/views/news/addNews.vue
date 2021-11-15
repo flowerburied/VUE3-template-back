@@ -55,6 +55,7 @@ import api from "@/api/api";
 // 富文本
 import { QuillEditor } from "@vueup/vue-quill";
 import ImageUploader from "quill-image-uploader";
+import BlotFormatter from "quill-blot-formatter";
 // import BlotFormatter from "quill-blot-formatter";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
@@ -81,46 +82,41 @@ export default defineComponent({
 
       QuillEditor: null,
 
-      modules: {
-        name: "ImageUploader",
-        module: ImageUploader,
-        options: {
-          upload: (file) => {
-            return new Promise((resolve, reject) => {
-              const formData = new FormData();
-              formData.append("file", file);
+      modules: [
+        {
+          name: "ImageUploader",
+          module: ImageUploader,
+          options: {
+            upload: (file) => {
+              return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append("file", file);
 
-              fetch("https://api.haihaixingqiu.com/Api/upload", {
-                method: "POST",
-                body: formData,
-              })
-                .then((response) => response.json())
-                .then((result) => {
-                  console.log(result);
-                  resolve(result.data);
+                fetch("https://api.haihaixingqiu.com/Api/upload", {
+                  method: "POST",
+                  body: formData,
                 })
-                .catch((error) => {
-                  reject("Upload failed");
-                  console.error("Error:", error);
-                });
-            });
+                  .then((response) => response.json())
+                  .then((result) => {
+                    console.log(result);
+                    resolve(result.data);
+                  })
+                  .catch((error) => {
+                    reject("Upload failed");
+                    console.error("Error:", error);
+                  });
+              });
+            },
           },
-          // modules: {
-          //   // ...
-          //   imageUploader: {
-          //     upload: (file) => {
-          //       return new Promise((resolve, reject) => {
-          //         setTimeout(() => {
-          //           resolve(
-          //             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png"
-          //           );
-          //         }, 3500);
-          //       });
-          //     },
-          //   },
-          // },
         },
-      },
+        {
+          name: "blotFormatter",
+          module: BlotFormatter,
+          options: {
+            /* options */
+          },
+        },
+      ],
     });
 
     const onSubmit = (formName) => {

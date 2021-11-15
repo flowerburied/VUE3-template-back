@@ -80,6 +80,14 @@ https://vueup.github.io/vue-quill/guide/modules.html#example
 
 案例  news/addNews
 
+调整图像
+https://github.com/Fandom-OSS/quill-blot-formatter
+
+
+!!! modules !!!
+单个用对象 {}
+多个用数组 []
+
 ### THREE.js
 
 使用geometry来创建模型 three内搜索geometry
