@@ -6,7 +6,7 @@ const routes = [
     {
         path: "/layout",
         name: "layout",
-        meta: { title: "管理员管理", icon: "admin" },
+        meta: { title: "管理员管理", icon: "admin", Jurisdiction: "72" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -38,7 +38,7 @@ const routes = [
     {
         path: "/user",
         name: "user",
-        meta: { title: "用户管理", icon: "user" },
+        meta: { title: "用户管理", icon: "user", Jurisdiction: "84" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -55,7 +55,7 @@ const routes = [
     {
         path: "/advertisement",
         name: "advertisement",
-        meta: { title: "广告管理", icon: "advertisement" },
+        meta: { title: "广告管理", icon: "advertisement", Jurisdiction: "85" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -72,7 +72,7 @@ const routes = [
     {
         path: "/news",
         name: "news",
-        meta: { title: "消息管理", icon: "news" },
+        meta: { title: "消息管理", icon: "news", Jurisdiction: "86" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -97,7 +97,7 @@ const routes = [
     {
         path: "/gift",
         name: "gift",
-        meta: { title: "礼物管理", icon: "gift" },
+        meta: { title: "礼物管理", icon: "gift", Jurisdiction: "87" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -114,7 +114,7 @@ const routes = [
     {
         path: "/Guild",
         name: "Guild",
-        meta: { title: "公会管理", icon: "Guild" },
+        meta: { title: "公会管理", icon: "Guild", Jurisdiction: "88" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -145,7 +145,7 @@ const routes = [
     {
         path: "/agreement",
         name: "agreement",
-        meta: { title: "用户协议管理", icon: "agreement" },
+        meta: { title: "用户协议管理", icon: "agreement", Jurisdiction: "89" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{
@@ -162,7 +162,7 @@ const routes = [
     {
         path: "/report",
         name: "report",
-        meta: { title: "举报管理", icon: "report" },
+        meta: { title: "举报管理", icon: "report", Jurisdiction: "90" },
         component: () =>
             import ("@/views/layout/layout.vue"),
         children: [{

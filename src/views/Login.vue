@@ -93,10 +93,12 @@ export default {
         console.log("option", option);
         const res = await api.template.login(option);
 
-        const { code, data } = res;
+        const { code, data,Jurisdiction } = res;
         if (code == 0) {
+           localStorage.setItem("Jurisdiction", Jurisdiction);
           localStorage.setItem("token", data);
-          console.log("localStorage.setItem data);", localStorage.getItem("token"));
+          console.log("router", router);
+
           router.replace({ path: "/layout" });
         }
         // router.replace({ path: "/layout" });

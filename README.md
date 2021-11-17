@@ -83,6 +83,10 @@ https://vueup.github.io/vue-quill/guide/modules.html#example
 调整图像
 https://github.com/Fandom-OSS/quill-blot-formatter
 
+css样式
+https://github.com/quilljs/quill
+https://cdn.quilljs.com/1.0.0/quill.snow.css
+//cdn.quilljs.com/1.0.0/quill.bubble.css
 
 !!! modules !!!
 单个用对象 {}
