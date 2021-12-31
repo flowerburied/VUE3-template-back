@@ -12,7 +12,7 @@ const routes = [
         children: [{
                 path: "/adminlist",
                 name: "adminlist",
-                meta: { title: "管理员列表" },
+                meta: { title: "管理员列表", Jurisdiction: "151" },
                 component: () =>
                     import ("@/views/admin/admin.vue"),
 
@@ -180,6 +180,25 @@ const routes = [
                 component: () =>
                     import ("@/views/report/replyReport.vue"),
             },
+
+        ]
+    },
+
+
+    {
+        path: "/Withdrawal",
+        name: "Withdrawal",
+        meta: { title: "提现管理", icon: "report", Jurisdiction: "90" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/Withdrawal",
+                name: "Withdrawal",
+                meta: { title: "提现列表" },
+                component: () =>
+                    import ("@/views/Withdrawal/Withdrawal.vue"),
+            },
+
 
         ]
     },

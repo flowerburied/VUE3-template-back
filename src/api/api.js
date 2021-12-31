@@ -7,6 +7,7 @@ import gift from './secApi/gift.js';
 import Guild from './secApi/Guild.js';
 import agreement from './secApi/agreement.js';
 import report from './secApi/report.js';
+import Withdrawal from './secApi/Withdrawal.js';
 let api = {
     template,
     Admin,
@@ -16,7 +17,8 @@ let api = {
     gift,
     Guild,
     agreement,
-    report
+    report,
+    Withdrawal
 }
 
 export default api
