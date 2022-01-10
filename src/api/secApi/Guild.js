@@ -1,6 +1,14 @@
 import axios from '../../utils/request.js'
 
 let Guild = {
+    // 解散房间
+    DissolutionRoom(data) {
+        return axios({
+            url: '/UnionAdmin/DissolutionRoom',
+            method: 'post',
+            data: data
+        })
+    },
     // 工会列表
     getUnionApplyList(data) {
         return axios({

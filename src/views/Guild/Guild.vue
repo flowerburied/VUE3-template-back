@@ -5,7 +5,6 @@
         <el-form-item label="名称">
           <el-input v-model="formInline.name" placeholder="请输入名称"></el-input>
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -18,6 +17,10 @@
         </el-form-item>
         <el-form-item>
           <el-button type="danger" plain @click="del">删除</el-button>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="danger" plain @click="roomDialog = true">解散房间</el-button>
         </el-form-item>
       </el-form>
       <el-table
@@ -47,6 +50,20 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <el-dialog v-model="roomDialog">
+        <el-form>
+          <el-form-item label="房间id">
+            <el-input v-model="roomId"></el-input>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="roomDialog = false">取 消</el-button>
+            <el-button type="primary" @click="delroom()">确 定</el-button>
+          </span>
+        </template>
+      </el-dialog>
 
       <el-dialog v-model="dialogTableVisible">
         <el-form :model="form" :rules="rules" ref="formInline">
@@ -150,6 +167,8 @@ export default {
       page_size: 100,
       testval: "正常",
       dialogTableVisible: false,
+      roomDialog: false,
+      roomId: "",
     });
 
     const chData = toRefs(datas); // 扩展运算符用
@@ -283,7 +302,6 @@ export default {
       router.push({ path: "/addNews" });
     };
 
-
     const adopt = () => {
       if (datas.currentRow) {
         ElMessageBox.alert("是否通过申请", "公会申请", {
@@ -300,7 +318,7 @@ export default {
         });
       }
     };
- const adoptTrue = async () => {
+    const adoptTrue = async () => {
       try {
         let option = {
           moudle: 88,
@@ -329,6 +347,33 @@ export default {
       }
     };
 
+    const delroom = async () => {
+      try {
+        let option = {
+          moudle: 88,
+          node: 191,
+          roomnumber: datas.roomId,
+        };
+        const res = await api.Guild.DissolutionRoom(option);
+        const { message, code } = res;
+        if (code == 0) {
+          ElMessage({
+            showClose: false,
+            message: message,
+            // type: "error",
+          });
+          datas.roomDialog = false;
+        } else {
+          ElMessage({
+            showClose: false,
+            message: message,
+            type: "error",
+          });
+        }
+      } catch (err) {
+        console.log("err!", err);
+      }
+    };
 
     const del = () => {
       if (datas.currentRow) {
@@ -488,11 +533,8 @@ export default {
       seeDefault,
       handlePictureCardPreview,
       handleRemove,
-      
-  adopt 
-
-
-
+      delroom,
+      adopt,
     };
   },
 };

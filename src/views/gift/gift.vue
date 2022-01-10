@@ -76,6 +76,9 @@
               <el-option label="头像框" value="4"></el-option>
               <el-option label="房间背景" value="5"></el-option>
               <el-option label="挚友" value="6"></el-option>
+              <el-option label="进场特效" value="7"></el-option>
+              <el-option label="扭蛋礼物" value="8"></el-option>
+              <el-option label="扭蛋中礼物" value="9"></el-option>
             </el-select>
           </el-form-item>
 
@@ -277,7 +280,6 @@ export default {
         console.log("err", err);
       }
     };
-
     const switchfun = (val) => {
       let state = "";
       if (val == 1) {
@@ -291,15 +293,19 @@ export default {
       } else if (val == 5) {
         state = "房间背景";
       } else if (val == 6) {
-        state = " 挚友";
+        state = "挚友";
+      } else if (val == 7) {
+        state = "进场特效";
+      } else if (val == 8) {
+        state = "扭蛋礼物";
+      } else if (val == 9) {
+        state = "扭蛋中礼物";
       }
       return state;
     };
-
     const addlist = () => {
       router.push({ path: "/addNews" });
     };
-
     const del = () => {
       if (datas.currentRow) {
         ElMessageBox.alert("确认删除？", "删除", {
