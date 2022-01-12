@@ -8,6 +8,7 @@ import Guild from './secApi/Guild.js';
 import agreement from './secApi/agreement.js';
 import report from './secApi/report.js';
 import Withdrawal from './secApi/Withdrawal.js';
+import expression from './secApi/expression.js';
 let api = {
     template,
     Admin,
@@ -18,7 +19,8 @@ let api = {
     Guild,
     agreement,
     report,
-    Withdrawal
+    Withdrawal,
+    expression
 }
 
 export default api

@@ -202,6 +202,23 @@ const routes = [
 
         ]
     },
+    {
+        path: "/expression",
+        name: "expression",
+        meta: { title: "表情管理", icon: "report", Jurisdiction: "90" },
+        component: () =>
+            import ("@/views/layout/layout.vue"),
+        children: [{
+                path: "/expression",
+                name: "expression",
+                meta: { title: "表情列表" },
+                component: () =>
+                    import ("@/views/expression/expression.vue"),
+            },
+
+
+        ]
+    },
 
     {
         path: "/componentView",
