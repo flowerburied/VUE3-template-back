@@ -9,6 +9,8 @@ import agreement from './secApi/agreement.js';
 import report from './secApi/report.js';
 import Withdrawal from './secApi/Withdrawal.js';
 import expression from './secApi/expression.js';
+import amountMoney from './secApi/amountMoney.js';
+
 let api = {
     template,
     Admin,
@@ -20,7 +22,8 @@ let api = {
     agreement,
     report,
     Withdrawal,
-    expression
+    expression,
+    amountMoney
 }
 
 export default api

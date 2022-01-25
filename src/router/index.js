@@ -219,47 +219,64 @@ const routes = [
 
         ]
     },
-
     {
-        path: "/componentView",
-        name: "componentView",
-        meta: { title: "组件", icon: "all" },
+        path: "/amountMoney",
+        name: "amountMoney",
+        meta: { title: "金额管理", icon: "report", Jurisdiction: "90" },
         component: () =>
             import ("@/views/layout/layout.vue"),
-        children: [
+        children: [{
+                path: "/amountMoney",
+                name: "amountMoney",
+                meta: { title: "金额列表" },
+                component: () =>
+                    import ("@/views/amountMoney/amountMoney.vue"),
+            },
 
-            {
-                path: "/myThreeDome",
-                name: "myThreeDome",
-                meta: { title: "Three.js" },
-                component: () =>
-                    import ("@/views/componentView/threeJs/myThreeDome.vue"),
-            },
-            {
-                path: "/myThreeDomeRing",
-                name: "myThreeDomeRing",
-                meta: { title: "计算公式" },
-                component: () =>
-                    import ("@/views/componentView/threeJs/myThreeDomeRing.vue"),
-            },
-            {
-                path: "/myThreeDomeCar",
-                name: "myThreeDomeCar",
-                meta: { title: "汽车渲染" },
-                component: () =>
-                    import ("@/views/componentView/threeJs/myThreeDomeCar.vue"),
-            },
-            {
-                path: "/rolePermissions",
-                name: "rolePermissions",
-                meta: { title: "角色权限" },
-                component: () =>
-                    import ("@/views/componentView/rolePermissions.vue"),
-            },
 
         ]
-
     },
+
+    // {
+    //     path: "/componentView",
+    //     name: "componentView",
+    //     meta: { title: "组件", icon: "all" },
+    //     component: () =>
+    //         import ("@/views/layout/layout.vue"),
+    //     children: [
+
+    //         {
+    //             path: "/myThreeDome",
+    //             name: "myThreeDome",
+    //             meta: { title: "Three.js" },
+    //             component: () =>
+    //                 import ("@/views/componentView/threeJs/myThreeDome.vue"),
+    //         },
+    //         {
+    //             path: "/myThreeDomeRing",
+    //             name: "myThreeDomeRing",
+    //             meta: { title: "计算公式" },
+    //             component: () =>
+    //                 import ("@/views/componentView/threeJs/myThreeDomeRing.vue"),
+    //         },
+    //         {
+    //             path: "/myThreeDomeCar",
+    //             name: "myThreeDomeCar",
+    //             meta: { title: "汽车渲染" },
+    //             component: () =>
+    //                 import ("@/views/componentView/threeJs/myThreeDomeCar.vue"),
+    //         },
+    //         {
+    //             path: "/rolePermissions",
+    //             name: "rolePermissions",
+    //             meta: { title: "角色权限" },
+    //             component: () =>
+    //                 import ("@/views/componentView/rolePermissions.vue"),
+    //         },
+
+    //     ]
+
+    // },
     {
         path: "/index",
         name: "index",
